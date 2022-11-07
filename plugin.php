@@ -9,7 +9,7 @@
  * Author URI: https://github.com/mahmudhaisan
  * Developer: Mahmud Haisan
  * Developer URI: https://github.com/mahmudhaisan
- * Text Domain: nexautosync
+ * Text Domain: msac493
  * Domain Path: /languages
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -100,12 +100,16 @@ final class Multi_Step_Ajax_Checkout
     //enqueue files
     public function enqueue_files()
     {
-        // style
+        // styles
         wp_enqueue_style('bootstrap-file', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/css/bootstrap.min.css');
         wp_enqueue_style('style-file', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/css/style.css');
+        wp_enqueue_style('fontawesome-file', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/css/all.min.css');
+        wp_enqueue_style('fontawesome-file', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/css/fontawesome.min.css');
 
         //scripts
-        wp_enqueue_script('bootstrap-file', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/js/bootstrap.min.js', array(), false, true);
+        wp_enqueue_script('bootstrap-file', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/js/bootstrap.min.js', array('jquery'), false, true);
+        wp_enqueue_script('script_multi_step_accordion', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/js/accordion-multi-step-form.js', array('jquery'), false, true);
+        wp_enqueue_script('live-search-script', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/js/jquery.live.search.min.js', array('jquery'), false, true);
         wp_enqueue_script('script_file', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/js/script.js', array('jquery'), false, true);
     }
 }
