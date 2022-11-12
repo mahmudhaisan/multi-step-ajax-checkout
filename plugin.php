@@ -66,6 +66,7 @@ final class Multi_Step_Ajax_Checkout
         define('MULTI_STEP_AJAX_PLUGIN_VERSION', self::VERSION);
         define('MULTI_STEP_AJAX_FILE_PATH', __FILE__);
         define('MULTI_STEP_AJAX_DIR_PATH', __DIR__);
+        define('MULTI_STEP_AJAX_PLUGINS_DIR_PATH', plugin_dir_path(__FILE__));
         define('MULTI_STEP_AJAX_PLUGIN_URL', plugins_url('', MULTI_STEP_AJAX_FILE_PATH));
         define('MULTI_STEP_AJAX_PLUGIN_ASSETS', MULTI_STEP_AJAX_PLUGIN_URL . '/assets');
     }

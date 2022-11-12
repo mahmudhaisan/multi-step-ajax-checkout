@@ -26,7 +26,26 @@ jQuery(document).ready(function($) {
         $("#list-group-for-search").addClass('d-none');
      });
 
+
+    var product_stock_quantity = $('#form1').attr('stock_quantity');
+   
+
+    $('#tst-btn').click(function(){
+        var form_input_val = $('#tst-btn').val();
+        alert(form_input_val);
+    });
+
+
+     
+
   });
 
 
-  
+  function get_input_field_product_id(){
+    let btn_product_id = document.getElementById('#tst-btn');
+    
+    console.log(btn_product_id.getAttribute('product-id'));
+  }
+
+  get_input_field_product_id();
+

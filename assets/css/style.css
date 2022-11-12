@@ -216,3 +216,29 @@ button.accordion-button.collapsed {
     box-shadow: 0;
     padding: 20px;
 }
+
+ul#list-group-for-search {
+    margin: 0;
+}
+.service-categories {
+    padding-top: 0em;
+    padding-bottom: 0em;
+    /* background-size: cover; */
+}
+.new-form-link-text{
+    display: inline;
+}
+
+.new-form-link{
+    display: inline;
+}
+
+.center{
+    width: 150px;
+    margin: 40px auto;
+      
+}
+
+.cart-quantity-btn {
+    height: 44px;
+}
