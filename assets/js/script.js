@@ -22,9 +22,9 @@ jQuery(document).ready(function($) {
      $("#search-query").focus(function(){
         $("#list-group-for-search").removeClass('d-none');
      }); 
-     $("#search-query").focusout(function(){
-        $("#list-group-for-search").addClass('d-none');
-     });
+    //  $("#search-query").focusout(function(){
+    //     $("#list-group-for-search").addClass('d-none');
+    //  });
 
 
     var product_stock_quantity = $('#form1').attr('stock_quantity');
@@ -34,6 +34,10 @@ jQuery(document).ready(function($) {
         var form_input_val = $('#tst-btn').val();
         alert(form_input_val);
     });
+
+
+$('.tstt').text = 12;
+
 
 
      
@@ -49,3 +53,9 @@ jQuery(document).ready(function($) {
 
   get_input_field_product_id();
 
+  function myFunc(){
+    alert('succcess');
+    }
+
+
+  

@@ -164,7 +164,7 @@ button.accordion-button {
     text-align: left;
     position: relative;
     background: #fff;
-    box-shadow: 12px 15px 20px 0px rgba(46,61,73,0.15);
+    border: 1px solid #d7d3cb;
     border-radius: 4px;
     transition: all 0.3s ease;
 }
@@ -173,7 +173,7 @@ button.accordion-button {
     font-size: 70px;
 }
 .wrimagecard-topimage_header{
-padding: 20px;
+padding: 5px;
 }
 a.wrimagecard:hover, .wrimagecard-topimage:hover {
     box-shadow: 2px 4px 8px 0px rgba(46,61,73,0.2);
@@ -241,4 +241,24 @@ ul#list-group-for-search {
 
 .cart-quantity-btn {
     height: 44px;
+}
+
+#list-group-for-search .list-group-item{
+
+
+    cursor: pointer;
+}
+
+#list-group-for-search .list-group-item:hover{
+
+    background-color: black;
+    color: white;
+}
+
+.col-1 {
+    width: 100% !important;
+}
+
+.price-row{
+    background-color: rgb(138 198 70 / 15%);
 }
