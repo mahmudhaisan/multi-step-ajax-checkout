@@ -36,7 +36,7 @@ jQuery(document).ready(function($) {
     });
 
 
-$('.tstt').text = 12;
+    $('.tstt').text = 12;
 
 
 
@@ -51,11 +51,7 @@ $('.tstt').text = 12;
     console.log(btn_product_id.getAttribute('product-id'));
   }
 
-  get_input_field_product_id();
-
-  function myFunc(){
-    alert('succcess');
-    }
+ 
 
 
   

@@ -262,3 +262,12 @@ ul#list-group-for-search {
 .price-row{
     background-color: rgb(138 198 70 / 15%);
 }
+
+
+div#accordionExamples {
+  margin-top: -25px !important;
+}
+
+#accordionExamples {
+  margin-top: -25px;
+}
