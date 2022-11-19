@@ -54,12 +54,14 @@ foreach ($products_info as $product) {
     // Collect product variables
     $product_id = $product->get_id();
     $product_name = $product->get_name();
+    $product_price = $product->get_price();
     $product_image_by_id = wp_get_attachment_image_src(get_post_thumbnail_id($product_id), 'single-post-thumbnail')[0];
 
     ?>
 
                                         <div class="col-md-3 col-sm-4 product-add-to-cart-ajax"
-                                            items-to-add-id="<?php echo $product_id; ?>">
+                                            items-to-add-id="<?php echo $product_id; ?>"
+                                            items-to-add-price="<?php echo $product_price; ?>">
                                             <div class="wrimagecard wrimagecard-topimage">
                                                 <a href="">
                                                     <div class="wrimagecard-topimage_header"
@@ -214,6 +216,8 @@ foreach ($products_info as $product) {
                     <div class="row price-row mt-2">
                         <h4 class="mb-0 p-3">Guranteed Price:
                             <span class="product_total_price"></span>
+
+
                         </h4>
 
                     </div>

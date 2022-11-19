@@ -32,16 +32,15 @@ jQuery(document).ready(function($) {
    $(".product-add-to-cart-ajax").click(function(e){
     e.preventDefault();
 
-    var product_id = $(this).attr('items-to-add-id')
+    var product_id = $(this).attr('items-to-add-id');
+
+    
 
     $(this).remove();
 
-
     
 
-    
-
-
+    // ajax on adding single product page
     $.ajax({
       url: multistep_ajax_script.ajaxurl,
       type: 'post',
@@ -52,22 +51,46 @@ jQuery(document).ready(function($) {
         },
         success: function(response){
 
+          var total_price = 0;
+         
           $('.single-product-added-to-cart').append(response);
+          $('.product_price_hidden').each(function(){
 
+            total_price += parseInt($(this).val());
+
+
+
+          });
+
+
+
+          $('.product_total_price').empty().append(total_price);
+
+      
         }
 
-    });
+    });   
 
 
- 
 
+
+   
     
     
+    
+    
+
   });
 
 
-    
-     
+  $('.product_price_hidden').each(function(){
+    console.log(1222);
+  });
+
+  
+
+
+
 
   });
 
