@@ -27,29 +27,49 @@ jQuery(document).ready(function($) {
     //  });
 
 
-    var product_stock_quantity = $('#form1').attr('stock_quantity');
-   
 
-    $('#tst-btn').click(function(){
-        var form_input_val = $('#tst-btn').val();
-        alert(form_input_val);
+
+   $(".product-add-to-cart-ajax").click(function(e){
+    e.preventDefault();
+
+    var product_id = $(this).attr('items-to-add-id')
+
+    $(this).remove();
+
+
+    
+
+    
+
+
+    $.ajax({
+      url: multistep_ajax_script.ajaxurl,
+      type: 'post',
+      data: {
+          'action': 'get_products_info',
+          'product_id': product_id
+ 
+        },
+        success: function(response){
+
+          $('.single-product-added-to-cart').append(response);
+
+        }
+
     });
 
 
-    $('.tstt').text = 12;
+ 
 
-
-
-     
-
+    
+    
   });
 
 
-  function get_input_field_product_id(){
-    let btn_product_id = document.getElementById('#tst-btn');
     
-    console.log(btn_product_id.getAttribute('product-id'));
-  }
+     
+
+  });
 
  
 

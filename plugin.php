@@ -112,6 +112,13 @@ final class Multi_Step_Ajax_Checkout
         wp_enqueue_script('script_multi_step_accordion', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/js/accordion-multi-step-form.js', array('jquery'), false, true);
         wp_enqueue_script('live-search-script', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/js/jquery.live.search.min.js', array('jquery'), false, true);
         wp_enqueue_script('script_file', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/js/script.js', array('jquery'), false, true);
+        wp_localize_script(
+            'script_file',
+            'multistep_ajax_script',
+            array(
+                'ajaxurl' => admin_url('admin-ajax.php'),
+            )
+        );
     }
 }
 

@@ -75,4 +75,5 @@ class Shortcode
 
         return $template;
     }
+
 }

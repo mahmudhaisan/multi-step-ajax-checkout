@@ -61,7 +61,7 @@ foreach ($products_info as $product) {
                                         <div class="col-md-3 col-sm-4 product-add-to-cart-ajax"
                                             items-to-add-id="<?php echo $product_id; ?>">
                                             <div class="wrimagecard wrimagecard-topimage">
-                                                <a href="#">
+                                                <a href="">
                                                     <div class="wrimagecard-topimage_header"
                                                         style="background-color:rgba(187, 120, 36, 0.1) ">
                                                         <img src="<?php echo $product_image_by_id; ?>" alt="">
@@ -116,101 +116,9 @@ foreach ($products_info as $product) {
                                         <div class="card-header py-3">
                                             <h5 class="mb-0">My Items</h5>
                                         </div>
-                                        <div class="card-body">
-                                            <?php
-
-foreach ($products_info as $product_info) {
-    $product_id = $product_info->get_id();
-    $product_price = $product_info->get_price();
-    $product_stock_quantity = get_post_meta($product_id, '_stock', true);
-
-    $product_image_by_id = wp_get_attachment_image_src(get_post_thumbnail_id($product_id), 'single-post-thumbnail')[0];
-    ?>
-                                            <!-- Single item -->
-                                            <div class="row">
-                                                <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
-                                                    <!-- Image -->
-                                                    <div class="bg-image hover-overlay hover-zoom ripple rounded"
-                                                        data-mdb-ripple-color="light">
-                                                        <img src="<?php echo $product_image_by_id; ?>" class="w-100"
-                                                            alt="Blue Jeans Jacket" />
-                                                        <a href="#!">
-                                                            <div class="mask"
-                                                                style="background-color: rgba(251, 251, 251, 0.2)">
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                    <!-- Image -->
-                                                </div>
+                                        <div class="card-body single-product-added-to-cart">
 
 
-
-                                                <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
-                                                    <!-- Data -->
-                                                    <p><strong><?php echo $product_info->get_title(); ?></strong>
-                                                    </p>
-                                                    <!-- Data -->
-                                                </div>
-
-
-
-                                                <!-- quantity -->
-                                                <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-                                                    <!-- Quantity -->
-                                                    <div class="d-flex mb-4" style="max-width: 300px">
-                                                        <button class="btn btn-primary px-3 me-2 cart-quantity-btn"
-                                                            onchange="quantity_number()"
-                                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                                            <i class="fas fa-minus"></i>
-                                                        </button>
-
-                                                        <?php
-
-    $quan_num = 1;
-
-    ?>
-
-                                                        <div class="form-outline">
-                                                            <input type="hidden" class="product_price_hidden"
-                                                                value="<?php echo $product_price; ?>">
-                                                            <input name="cart_quantity_number" min="0"
-                                                                onchange="quantity_number()"
-                                                                max="<?php echo $product_stock_quantity; ?>"
-                                                                value="<?php echo $quan_num; ?>" type="number"
-                                                                class="form-control itemQty" />
-
-
-
-                                                        </div>
-
-
-
-                                                        <button class="btn btn-primary px-3 ms-2 cart-quantity-btn"
-                                                            onchange="quantity_number()"
-                                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                                            <i class="fas fa-plus"></i>
-                                                        </button>
-
-                                                    </div>
-                                                    <!-- Quantity -->
-
-                                                    <button type="button"
-                                                        class="btn btn-white btn-sm border border-primary me-1 mb-2"
-                                                        data-mdb-toggle="tooltip" title="">
-                                                        Remove Item
-                                                    </button>
-
-
-
-                                                </div>
-
-
-
-                                            </div>
-                                            <hr class="my-4" />
-
-                                            <!-- Single item -->
-                                            <?php }?>
 
                                         </div>
 
@@ -299,7 +207,7 @@ foreach ($products_info as $product_info) {
 
 
 
-        <div class="col-md-4">
+        <div class="col-md-4 guranteed-price-col">
             <div class="row accordion-item p-4">
                 <div class="order-summary-col">
                     <h3 class="text-center">Order Details</h3>
@@ -334,48 +242,20 @@ function quantity_number() {
     var itemQty = document.getElementsByClassName('itemQty');
     var itemPrice = document.getElementsByClassName('product_price_hidden');
     var itemTotalPrice = document.getElementsByClassName('product_total_price');
-
-
     var arrProductTotalPrice = [];
-
     var finalProductPrice = 0;
 
     for (i = 0; i < itemPrice.length; i++) {
-
-
         var itemQtyValue = itemQty[i].value;
         var itemPriceValue = itemPrice[i].value;
-
         var totalPriceValue = (itemQty[i].value) * (itemPrice[i].value);
-
         arrProductTotalPrice.push(totalPriceValue);
-
-
-
-
-        console.log(i);
-
-        // console.log((itemQty[i].value) * (itemPrice[i].value));
-
-
-
-
-
-
-
-
     }
-
 
     for (var value of arrProductTotalPrice) {
         finalProductPrice += value;
     }
 
-
-
     itemTotalPrice[0].innerText = finalProductPrice;
-
-
-
 }
 </script>
