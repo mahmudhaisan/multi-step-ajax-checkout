@@ -37,6 +37,7 @@ include MULTI_STEP_AJAX_PLUGINS_DIR_PATH . 'includes/Frontend/templates/form-htm
 
     <div class="row">
         <div class="col-md-8">
+
             <!-- Accordion Start -->
             <form name="checkout" method="post" class="checkout woocommerce-checkout"
                 action="<?php echo esc_url(wc_get_checkout_url()); ?>" enctype="multipart/form-data">

@@ -21,13 +21,23 @@ class Shortcode
         add_action('add_payment_details_in_checkout_accordion', [$this, 'second_place_order_button'], 1111);
         add_action('woocommerce_checkout_after_order_review', [$this, 'second_place_order_button'], 5);
         add_filter('woocommerce_locate_template', [$this, 'checkout_page_templates_override_woo'], 10, 3);
+        add_action('template_redirect', [$this, 'custom_empty_cart']);
+        add_filter('woocommerce_checkout_redirect_empty_cart', '__return_false');
+        add_filter('woocommerce_checkout_update_order_review_expired', '__return_false');
+        add_action('init', [$this, 'register_my_session']);
+        add_action('woocommerce_checkout_before_order_review', [$this, 'action_woocommerce_checkout_before_order_review'], 10, 0);
+        // add_filter('woocommerce_checkout_fields', [$this, 'woo_checkout_fields_value'], 222);
+        // add_filter('woocommerce_checkout_fields', [$this, 'misha_print_all_fields']);
 
     }
 
     public function accordion_multi_step_frontend()
     {
 
+        // global $woocommerce;
+
         require MULTI_STEP_AJAX_DIR_PATH . '/includes/Frontend/templates/form-html.php';
+
     }
 
     public function remove_checkout_coupon_form()
@@ -76,4 +86,39 @@ class Shortcode
         return $template;
     }
 
+    public function custom_empty_cart()
+    {
+        if (!(is_cart() || is_checkout()) && !WC()->cart->is_empty()) {
+            WC()->cart->empty_cart(true);
+        }
+
+    }
+
+    // Start session if not started
+
+    public function register_my_session()
+    {
+        if (!session_id()) {
+            session_start();
+        }
+    }
+
+    public function action_woocommerce_checkout_before_order_review()
+    {
+        echo 'hello';
+        $total = WC()->cart->total;
+
+        // Testing output
+        var_dump($total);
+    }
+
+    public function misha_print_all_fields($fields)
+    {
+
+        //if( !current_user_can( 'manage_options' ) )
+        //    return; // in case your website is live
+        echo '<pre>';
+        print_r($fields); // wrap results in pre html tag to make it clearer
+        exit;
+    }
 }

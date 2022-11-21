@@ -13,19 +13,11 @@ $woo_currency_symbol = get_woocommerce_currency_symbol();
 ?>
 
 
-
-
-
-
 <div class="container">
 
     <div class="row">
         <div class="col-md-8">
-
             <div class="accordion" id="accordionPanelsStayOpenExample">
-
-
-
                 <!-- 1st accordion item -->
                 <div class="accordion-item">
                     <h1 class="accordion-header" id="panelsStayOpen-headingOne">
@@ -45,7 +37,9 @@ $woo_currency_symbol = get_woocommerce_currency_symbol();
                                     <div class="mb-3 mt-3 h3 section-title-accordion-item">
                                         Most Popular Items
                                     </div>
-                                    <div class="row">
+                                    <div class="row product-main-items">
+
+
                                         <?php
 
 // Loop through list of products
@@ -119,6 +113,8 @@ foreach ($products_info as $product) {
                                             <h5 class="mb-0">My Items</h5>
                                         </div>
                                         <div class="card-body single-product-added-to-cart">
+
+                                            <p>Get Products</p>
 
 
 
