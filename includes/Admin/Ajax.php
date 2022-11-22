@@ -29,7 +29,8 @@ class Ajax
 
 <!-- Single item -->
 <div class="product-added-single-page" cart-product-name="<?php echo $product_name; ?>"
-    product-id-to-remove="<?php echo $product_id; ?>" cart-total-amount="<?php echo $total; ?>">
+    cart-product-price="<?php echo $product_price; ?>" product-id-to-remove="<?php echo $product_id; ?>"
+    cart-total-amount="<?php echo $total; ?>">
     <div class="row product-row">
         <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
 
@@ -188,11 +189,11 @@ do_action('woocommerce_review_order_before_cart_contents');
             class="<?php echo esc_attr(apply_filters('woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key)); ?>">
             <td class="product-name">
                 <?php echo wp_kses_post(apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key)) . '&nbsp;'; ?>
-                <?php echo apply_filters('woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf('&times;&nbsp;%s', $cart_item['quantity']) . '</strong>', $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                  ?>
-                <?php echo wc_get_formatted_cart_item_data($cart_item); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                  ?>
+                <?php echo apply_filters('woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf('&times;&nbsp;%s', $cart_item['quantity']) . '</strong>', $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                     ?>
+                <?php echo wc_get_formatted_cart_item_data($cart_item); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                     ?>
             </td>
             <td class="product-total">
-                <?php echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                  ?>
+                <?php echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                     ?>
             </td>
         </tr>
         <?php

@@ -74,7 +74,8 @@ jQuery(document).ready(function($) {
           
           $('.product-added-single-page').each(function(){
             var cart_product_name = $(this).attr('cart-product-name');
-            $('.shopping_cart_products_body').prepend('<tr class="product_in_cart_info_name_price"><td>'+ cart_product_name +' </td> <td>price</td></tr>');
+            var cart_product_price = $(this).attr('cart-product-price');
+            $('.shopping_cart_products_body').prepend('<tr class="product_in_cart_info_name_price"><td>'+ cart_product_name +' </td> <td> '+ cart_product_price +'</td></tr>');
             
           });
           
@@ -135,7 +136,17 @@ jQuery(document).ready(function($) {
           var product_price = $('.single-product-added-to-cart > div:last').attr('cart-total-amount');
           $('.total-price-of-cart-items').empty().append(product_price);
 
-          alert(product_price);
+          // alert(product_price);
+
+
+          $('.product_in_cart_info_name_price').remove();
+          
+          $('.product-added-single-page').each(function(){
+            var cart_product_name = $(this).attr('cart-product-name');
+            var cart_product_price = $(this).attr('cart-product-price');
+            $('.shopping_cart_products_body').prepend('<tr class="product_in_cart_info_name_price"><td>'+ cart_product_name +' </td> <td> '+ cart_product_price +'</td></tr>');
+            
+          });
 
 
 
