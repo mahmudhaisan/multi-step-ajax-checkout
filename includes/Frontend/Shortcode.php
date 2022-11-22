@@ -25,10 +25,6 @@ class Shortcode
         add_filter('woocommerce_checkout_redirect_empty_cart', '__return_false');
         add_filter('woocommerce_checkout_update_order_review_expired', '__return_false');
         add_action('init', [$this, 'register_my_session']);
-        add_action('woocommerce_checkout_before_order_review', [$this, 'action_woocommerce_checkout_before_order_review'], 10, 0);
-        // add_filter('woocommerce_checkout_fields', [$this, 'woo_checkout_fields_value'], 222);
-        // add_filter('woocommerce_checkout_fields', [$this, 'misha_print_all_fields']);
-
     }
 
     public function accordion_multi_step_frontend()
@@ -83,6 +79,11 @@ class Shortcode
             $template = MULTI_STEP_AJAX_PLUGINS_DIR_PATH . 'templates/checkout/form-checkout.php';
         }
 
+        if ($basename == 'review-order.php') {
+
+            $template = MULTI_STEP_AJAX_PLUGINS_DIR_PATH . 'templates/checkout/review-order.php';
+        }
+
         return $template;
     }
 
@@ -103,22 +104,4 @@ class Shortcode
         }
     }
 
-    public function action_woocommerce_checkout_before_order_review()
-    {
-        echo 'hello';
-        $total = WC()->cart->total;
-
-        // Testing output
-        var_dump($total);
-    }
-
-    public function misha_print_all_fields($fields)
-    {
-
-        //if( !current_user_can( 'manage_options' ) )
-        //    return; // in case your website is live
-        echo '<pre>';
-        print_r($fields); // wrap results in pre html tag to make it clearer
-        exit;
-    }
 }

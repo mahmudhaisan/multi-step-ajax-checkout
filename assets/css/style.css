@@ -271,3 +271,8 @@ div#accordionExamples {
 #accordionExamples {
   margin-top: -25px;
 }
+
+.accordion-next-btn-wrapper button {
+    font-size: large;
+    margin-bottom: 15px;
+}

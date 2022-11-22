@@ -131,6 +131,32 @@ jQuery(document).ready(function($) {
   })
 
 
+  $('#first-accordion-item-next').click(function(e){
+  e.preventDefault();
+
+  $('#second-accordion-btn').prop('disabled', false);
+  })
+
+
+  $('#second-accordion-item-next').click(function(e){
+
+    e.preventDefault();
+    $('#third-accordion-btn').prop('disabled', false);
+
+  })
+
+  $('#third-accordion-item-next').click(function(e){
+
+      e.preventDefault();
+      $('#fourth-accordion-btn').prop('disabled', false);
+
+  })
+
+  $('#fourth-accordion-item-next').click(function(e){
+    e.preventDefault();
+  
+    $('#fifth-accordion-btn').prop('disabled', false);
+  })
 
   });
 

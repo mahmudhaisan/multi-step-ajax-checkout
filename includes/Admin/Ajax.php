@@ -22,6 +22,9 @@ class Ajax
         $product_price = $product_query->get_price();
         WC()->cart->add_to_cart($product_id, 1);
 
+        // add_filter('woocommerce_cart_item_name', [$this, 'isa_woo_cart_attributes'], 10, 2);
+        add_action('woocommerce_checkout_before_order_review', [$this, 'action_woocommerce_checkout_before_order_review'], 10, 0);
+
         // print_r(WC()->cart->get_cart_contents_count());
 
         ?>
@@ -112,7 +115,8 @@ class Ajax
                 WC()->cart->remove_cart_item($cart_item_key);
             }
         }
-        print_r(WC()->cart->get_cart_contents_count());
+
+        // print_r(WC()->cart->get_cart_contents_count());
 
         // echo $products_total_price;
         ?>
@@ -137,6 +141,27 @@ class Ajax
 
         wp_die();
     }
+
+    public function isa_woo_cart_attributes($cart_item, $cart_item_key)
+    {
+
+        // var_dump($cart_item);
+
+        $item_data = $cart_item_key['data'];
+        $post = get_post($item_data->id);
+
+        echo 's ' . $cart_item;
+    }
+
+    public function action_woocommerce_checkout_before_order_review()
+    {
+        echo 'hello';
+        $total = WC()->cart->total;
+
+        // Testing output
+        // var_dump($total);
+    }
+
 }
 
 ?>
