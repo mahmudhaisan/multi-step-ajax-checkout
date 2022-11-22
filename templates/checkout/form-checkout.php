@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
 
 do_action('woocommerce_before_checkout_form', $checkout);
 
-// If checkout registration is disabled and not logged in, the user cannot checkout.
+// If checkout registration is disableds and not logged in, the user cannot checkout.
 if (!$checkout->is_registration_enabled() && $checkout->is_registration_required() && !is_user_logged_in()) {
     echo esc_html(apply_filters('woocommerce_checkout_must_be_logged_in_message', __('You must be logged in to checkout.', 'woocommerce')));
     return;
@@ -173,7 +173,7 @@ foreach ($products_info as $product) {
                     <!-- 2nd accordion item -->
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button collapsed" id="second-accordion-btn" disabled type="button"
+                            <button class="accordion-button collapsed" id="second-accordion-btn" disableds type="button"
                                 data-bs-toggle="collapse" data-bs-target="#second-accordion-item" aria-expanded="false"
                                 aria-controls="second-accordion-item">
                                 When Would You Like To Picked Up?
@@ -225,7 +225,7 @@ foreach ($products_info as $product) {
                     <!-- 3rd accordion item -->
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button collapsed" id="third-accordion-btn" disabled type="button"
+                            <button class="accordion-button collapsed" id="third-accordion-btn" disableds type="button"
                                 data-bs-toggle="collapse" data-bs-target="#third-accordion-item" aria-expanded="false"
                                 aria-controls="third-accordion-item">
                                 Orders Details
@@ -250,7 +250,7 @@ foreach ($products_info as $product) {
 
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">
-                            <button id="fourth-accordion-btn" class="accordion-button collapsed" disabled type="button"
+                            <button id="fourth-accordion-btn" class="accordion-button collapsed" disableds type="button"
                                 data-bs-toggle="collapse" data-bs-target="#collapseOnes" aria-expanded="false"
                                 aria-controls="collapseOnes">
                                 Contact Information
@@ -296,7 +296,7 @@ foreach ($products_info as $product) {
 
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed" id="fifth-accordion-btn" disabled type="button"
+                            <button class="accordion-button collapsed" id="fifth-accordion-btn" disableds type="button"
                                 data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
                                 aria-controls="collapseTwo">
                                 Payment Information
@@ -309,7 +309,7 @@ foreach ($products_info as $product) {
 
                                 <?php do_action('woocommerce_checkout_before_order_review_heading');?>
 
-                                <h3 id="order_review_heading"><?php esc_html_e('Your orders info', 'woocommerce');?>
+                                <h3 id="orders_info_texts"><?php esc_html_e('Your orders info', 'woocommerce');?>
                                 </h3>
 
                                 <?php do_action('woocommerce_checkout_before_order_review');?>

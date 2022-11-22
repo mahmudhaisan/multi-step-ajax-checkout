@@ -29,10 +29,15 @@ jQuery(document).ready(function($) {
 
 
 
-   $(".product-add-to-cart-ajax").click(function(e){
+    $(document).on('click', '.product-add-to-cart-ajax', function(e){
+ 
     e.preventDefault();
 
     var product_id = $(this).attr('items-to-add-id');
+   
+    
+
+    
     $(this).remove();
 
     // ajax on adding single product page
@@ -45,6 +50,7 @@ jQuery(document).ready(function($) {
  
         },
         success: function(response){
+          // console.log(JSON.parse(response));
 
           // console.log(response.find('.response'));
 
@@ -57,6 +63,22 @@ jQuery(document).ready(function($) {
           });
 
           $('.product_total_price').empty().append(total_price);
+
+          var product_price = $('.single-product-added-to-cart > div:last').attr('cart-total-amount');
+          $('.total-price-of-cart-items').empty().append(product_price);
+          
+          
+          // alert(product_price );
+
+          $('.product_in_cart_info_name_price').remove();
+          
+          $('.product-added-single-page').each(function(){
+            var cart_product_name = $(this).attr('cart-product-name');
+            $('.shopping_cart_products_body').prepend('<tr class="product_in_cart_info_name_price"><td>'+ cart_product_name +' </td> <td>price</td></tr>');
+            
+          });
+          
+
           
         }
 
@@ -104,12 +126,20 @@ jQuery(document).ready(function($) {
         },
         success: function(response){
           $('.product-main-items').append(response);
-          console.log(product_item_id);
+          // console.log(response);
 
          
 
           $('.product_total_price').empty().append(total_price);
 
+          var product_price = $('.single-product-added-to-cart > div:last').attr('cart-total-amount');
+          $('.total-price-of-cart-items').empty().append(product_price);
+
+          alert(product_price);
+
+
+
+         
           // alert(product_item_ids);
 
           // $('.product-name').empty().append(product_item_name);
@@ -131,32 +161,33 @@ jQuery(document).ready(function($) {
   })
 
 
-  $('#first-accordion-item-next').click(function(e){
-  e.preventDefault();
+  // $('#first-accordion-item-next').click(function(e){
+  // e.preventDefault();
 
-  $('#second-accordion-btn').prop('disabled', false);
-  })
-
-
-  $('#second-accordion-item-next').click(function(e){
-
-    e.preventDefault();
-    $('#third-accordion-btn').prop('disabled', false);
-
-  })
-
-  $('#third-accordion-item-next').click(function(e){
-
-      e.preventDefault();
-      $('#fourth-accordion-btn').prop('disabled', false);
-
-  })
-
-  $('#fourth-accordion-item-next').click(function(e){
-    e.preventDefault();
+  // $('#second-accordion-btn').prop('disabled', false);
   
-    $('#fifth-accordion-btn').prop('disabled', false);
-  })
+  // })
+
+
+  // $('#second-accordion-item-next').click(function(e){
+
+  //   e.preventDefault();
+  //   $('#third-accordion-btn').prop('disabled', false);
+
+  // })
+
+  // $('#third-accordion-item-next').click(function(e){
+
+  //     e.preventDefault();
+  //     $('#fourth-accordion-btn').prop('disabled', false);
+
+  // })
+
+  // $('#fourth-accordion-item-next').click(function(e){
+  //   e.preventDefault();
+  
+  //   $('#fifth-accordion-btn').prop('disabled', false);
+  // })
 
   });
 

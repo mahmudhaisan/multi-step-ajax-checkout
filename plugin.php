@@ -91,8 +91,8 @@ final class Multi_Step_Ajax_Checkout
     {
         // works for backend
         if (is_admin()) {
-            new Multi\Checkout\Admin();
             // admin menu class initialize
+            new Multi\Checkout\Admin();
         } else { // for elsewhere
             new Multi\Checkout\Frontend(); // Frontend class initialize
         }

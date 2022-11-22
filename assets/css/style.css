@@ -276,3 +276,8 @@ div#accordionExamples {
     font-size: large;
     margin-bottom: 15px;
 }
+
+.woocommerce-checkout #order_review {
+    float: left !important; 
+    width: 100% !important; 
+}

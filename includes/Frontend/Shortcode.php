@@ -15,7 +15,7 @@ class Shortcode
         add_action('woocommerce_before_checkout_form', [$this, 'remove_checkout_coupon_form'], 9);
         add_filter('wc_add_to_cart_message', '__return_false');
         // add_action('woocommerce_after_checkout_billing_form', [$this, 'test_html_in_checkout']);
-        // add_action('woocommerce_checkout_order_review', [$this, 'remove_checkout_totals'], 1);
+        add_action('woocommerce_checkout_order_review', [$this, 'remove_checkout_totals'], 1);
         add_filter('woocommerce_cart_needs_payment', '__return_true');
         add_filter('woocommerce_order_button_html', [$this, 'remove_order_button_html']);
         add_action('add_payment_details_in_checkout_accordion', [$this, 'second_place_order_button'], 1111);
@@ -25,6 +25,7 @@ class Shortcode
         add_filter('woocommerce_checkout_redirect_empty_cart', '__return_false');
         add_filter('woocommerce_checkout_update_order_review_expired', '__return_false');
         add_action('init', [$this, 'register_my_session']);
+        add_action('woocommerce_checkout_order_review', [$this, 'checkout_total_product_summary_woocommerce']);
     }
 
     public function accordion_multi_step_frontend()
@@ -103,5 +104,40 @@ class Shortcode
             session_start();
         }
     }
+    public function checkout_total_product_summary_woocommerce()
+    {
+
+        ?>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope=" col">Orders Info</th>
+            <th scope="col">Subtotal</th>
+        </tr>
+    </thead>
+    <tbody class="shopping_cart_products_body">
+
+
+
+        <tr class="product_in_cart_info_name_price">
+
+
+        </tr>
+
+
+        <tr class="product_in_cart_info_name_subtotal">
+            <td>Subtotal</td>
+            <td class="total-price-of-cart-items">0</td>
+        </tr>
+        <tr class='product_in_cart_info_name_total'>
+
+            <td>Total</td>
+            <td class="total-price-of-cart-items">0</td>
+        </tr>
+    </tbody>
+</table>
+
+<?php }
 
 }
