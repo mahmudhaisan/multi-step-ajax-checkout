@@ -28,12 +28,18 @@ if (!$checkout->is_registration_enabled() && $checkout->is_registration_required
     return;
 }
 
-$product_args = array(
+if (is_checkout()) {
+    WC()->cart->empty_cart();
+}
+
+$latest_products_args = array(
     'status' => 'publish',
     'limit' => 8,
 
 );
-$products_info = wc_get_products($product_args);
+
+$latest_product_ids_arr = array();
+$latest_products_info = wc_get_products($latest_products_args);
 
 $cart_total_price = WC()->cart->get_cart_contents_total();
 $woo_currency_symbol = get_woocommerce_currency_symbol();
@@ -78,7 +84,7 @@ $woo_currency_symbol = get_woocommerce_currency_symbol();
                                             <?php
 
 // Loop through list of products
-foreach ($products_info as $product) {
+foreach ($latest_products_info as $product) {
 
     // Collect product variables
     $product_id = $product->get_id();
@@ -86,6 +92,7 @@ foreach ($products_info as $product) {
     $product_price = $product->get_price();
     $product_image_by_id = wp_get_attachment_image_src(get_post_thumbnail_id($product_id), 'single-post-thumbnail')[0];
 
+    array_push($latest_product_ids_arr, $product_id);
     ?>
 
                                             <div class="col-md-3 col-sm-4 product-add-to-cart-ajax"
@@ -117,18 +124,43 @@ foreach ($products_info as $product) {
                                     </div>
 
 
+                                    <?php print_r($latest_product_ids_arr);
+
+$all_products_args = array(
+    'status' => 'publish',
+    'exclude' => $latest_product_ids_arr,
+);
+
+$all_products_info = wc_get_products($all_products_args);
+
+?>
+
+
+
 
                                     <input type="text" id="search-query" class="form-control my-3 bg-white text-dark"
                                         placeholder="Search Your Item">
                                     <ul class="list-group bg-white text-dark d-none" id="list-group-for-search">
-                                        <li class="list-group-item list-group-item-white">Header</li>
-                                        <li class="list-group-item list-group-item-white">Pernalonga</li>
-                                        <li class="list-group-item list-group-item-white">Patolino</li>
-                                        <li class="list-group-item list-group-item-white">Eufrazino</li>
-                                        <li class="list-group-item list-group-item-white">Lola Bunny</li>
-                                        <li class="list-group-item list-group-item-white">Frajola</li>
-                                        <li class="list-group-item list-group-item-white">Piu-Piu</li>
-                                        <li class="list-group-item list-group-item-white">Taz</li>
+
+
+                                        <?php
+
+foreach ($all_products_info as $single_product) {
+
+    // Collect product variables
+    $product_id = $single_product->get_id();
+    $product_name = $single_product->get_name();
+    $product_price = $single_product->get_price();
+    $product_image_by_id = wp_get_attachment_image_src(get_post_thumbnail_id($single_product_id), 'single-post-thumbnail')[0];
+
+    ?>
+
+                                        <li class="list-group-item list-group-item-white search-result-item"
+                                            list-product-id="<?php echo $product_id; ?>">
+
+                                            <?php echo $product_name; ?>
+                                        </li>
+                                        <?php }?>
                                     </ul>
                                     <div class="mb-4 mt-4">
                                         <span>

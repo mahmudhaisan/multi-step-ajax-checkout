@@ -107,6 +107,8 @@ class Shortcode
     public function checkout_total_product_summary_woocommerce()
     {
 
+        $total_cart_product_price = WC()->cart->get_cart_contents_total();
+
         ?>
 
 <table class="table">

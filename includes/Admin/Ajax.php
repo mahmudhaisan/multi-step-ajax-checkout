@@ -6,9 +6,16 @@ class Ajax
 {
     public function __construct()
     {
+
+        //click and add on cart ajax actions from main products grid
         add_action('wp_ajax_get_products_info', [$this, 'get_products_info']);
         add_action('wp_ajax_nopriv_get_products_info', [$this, 'get_products_info']);
 
+        //click and add on cart ajax actions from main products grid
+        add_action('wp_ajax_search_result_products_action', [$this, 'search_result_products_action']);
+        add_action('wp_ajax_nopriv_search_result_products_action', [$this, 'search_result_products_action']);
+
+        //click and remove on cart ajax actions
         add_action('wp_ajax_removed_items_add_to_main_items', [$this, 'removed_items_add_to_main_items']);
         add_action('woocommerce_checkout_order_review', [$this, 'checkout_total_product_summary_woocommerce']);
     }
@@ -62,7 +69,6 @@ class Ajax
         <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
             <!-- Quantity -->
             <div class="d-flex mb-4" style="max-width: 300px">
-
 
                 <?php
 
@@ -158,7 +164,7 @@ class Ajax
 
     public function action_woocommerce_checkout_before_order_review()
     {
-        echo 'hello';
+        // echo 'hello';
         $total = WC()->cart->total;
 
         // Testing output
@@ -189,11 +195,11 @@ do_action('woocommerce_review_order_before_cart_contents');
             class="<?php echo esc_attr(apply_filters('woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key)); ?>">
             <td class="product-name">
                 <?php echo wp_kses_post(apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key)) . '&nbsp;'; ?>
-                <?php echo apply_filters('woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf('&times;&nbsp;%s', $cart_item['quantity']) . '</strong>', $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                     ?>
-                <?php echo wc_get_formatted_cart_item_data($cart_item); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                     ?>
+                <?php echo apply_filters('woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf('&times;&nbsp;%s', $cart_item['quantity']) . '</strong>', $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                 ?>
+                <?php echo wc_get_formatted_cart_item_data($cart_item); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                 ?>
             </td>
             <td class="product-total">
-                <?php echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                     ?>
+                <?php echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                 ?>
             </td>
         </tr>
         <?php
@@ -264,6 +270,90 @@ do_action('woocommerce_review_order_before_cart_contents');
 
 <?php }
 
+    public function search_result_products_action()
+    {
+
+        $product_id = $_POST['product_id'];
+        $product_query = wc_get_product($product_id);
+        $product_name = $product_query->get_name();
+        $product_image_by_id = wp_get_attachment_image_src(get_post_thumbnail_id($product_id), 'single-post-thumbnail')[0];
+        $product_price = $product_query->get_price();
+        WC()->cart->add_to_cart($product_id, 1);
+
+        $total = WC()->cart->total;
+        // print_r(WC()->cart->get_cart_contents_count());
+
+        echo $total;
+
+        ?>
+
+<!-- Single item -->
+<div class="product-added-single-page" cart-product-name="<?php echo $product_name; ?>"
+    cart-product-price="<?php echo $product_price; ?>" product-id-to-remove="<?php echo $product_id; ?>"
+    cart-total-amount="<?php echo $total; ?>">
+    <div class="row product-row">
+        <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+
+
+
+            <!-- Image -->
+            <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                <img src="<?php echo $product_image_by_id; ?>" class="w-100" alt="Blue Jeans Jacket" />
+                <a href="#!">
+                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)">
+                    </div>
+                </a>
+            </div>
+            <!-- Image -->
+        </div>
+
+
+
+        <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+            <!-- Data -->
+            <p><strong><?php echo $product_name; ?></strong>
+            </p>
+            <!-- Data -->
+        </div>
+
+
+
+        <!-- quantity -->
+        <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+            <!-- Quantity -->
+            <div class="d-flex mb-4" style="max-width: 300px">
+
+                <?php
+
+        $quan_num = 1;
+
+        ?>
+                <div class="form-outline">
+                    <input type="hidden" class="product_price_hidden" value="<?php echo $product_price; ?>">
+                    <input name="cart_quantity_number" min="0" onchange="quantity_number()"
+                        max="<?php echo 'product_stock_quantity'; ?>" value="<?php echo $quan_num; ?>" type="number"
+                        class="form-control itemQty" />
+
+                </div>
+            </div>
+            <!-- Quantity -->
+
+            <button type="button" class="remove-single-item-btn btn btn-white btn-sm border border-primary me-1 mb-2"
+                item-id-to-remove="<?php echo $product_id; ?>" item-product-name="<?php echo $product_name; ?>"
+                data-mdb-toggle="tooltip" title="">
+                Remove Item
+            </button>
+
+
+        </div>
+    </div>
+</div>
+
+<?php
+
+        wp_die();
+
+    }
 }
 
 ?>
