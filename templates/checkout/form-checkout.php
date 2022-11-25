@@ -114,6 +114,9 @@ foreach ($latest_products_info as $product) {
                                             </div>
 
                                             <?php }?>
+
+                                            <input type="hidden" id="latest_products_id_arr"
+                                                data-latest-products-id="<?php echo json_encode($latest_product_ids_arr); ?>">
                                         </div>
                                     </div>
 
@@ -124,7 +127,7 @@ foreach ($latest_products_info as $product) {
                                     </div>
 
 
-                                    <?php print_r($latest_product_ids_arr);
+                                    <?php
 
 $all_products_args = array(
     'status' => 'publish',
@@ -161,6 +164,7 @@ foreach ($all_products_info as $single_product) {
                                             <?php echo $product_name; ?>
                                         </li>
                                         <?php }?>
+
                                     </ul>
                                     <div class="mb-4 mt-4">
                                         <span>

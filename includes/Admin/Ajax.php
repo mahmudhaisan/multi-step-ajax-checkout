@@ -109,6 +109,9 @@ class Ajax
     {
         $removed_product_id = $_POST['removed_product_id'];
         $products_total_price = $_POST['total_product_price'];
+        $latest_products_arr = json_decode($_POST['latest_products_arr']);
+
+        // print_r($latest_products_arr);
 
         $product_query = wc_get_product($removed_product_id);
 
@@ -124,10 +127,8 @@ class Ajax
 
         $total = WC()->cart->total;
 
-        // print_r(WC()->cart->get_cart_contents_count());
+        if (in_array($removed_product_id, $latest_products_arr)) {?>
 
-        // echo $products_total_price;
-        ?>
 
 <div class="col-md-3 col-sm-4 product-add-to-cart-ajax" items-to-add-name="<?php echo $product_name; ?>"
     items-to-add-id="<?php echo $removed_product_id; ?>" items-to-add-price="<?php echo $product_price; ?>"
@@ -145,6 +146,22 @@ class Ajax
         </a>
     </div>
 </div>
+
+<?php } else {?>
+<li class="list-group-item list-group-item-white search-result-item"
+    list-product-id="<?php echo $removed_product_id; ?>">
+
+    <?php echo $product_name; ?>
+</li>
+
+<?php }
+
+        // print_r(WC()->cart->get_cart_contents_count());
+
+        // echo $products_total_price;
+
+        ?>
+
 
 <?php
 
@@ -195,11 +212,11 @@ do_action('woocommerce_review_order_before_cart_contents');
             class="<?php echo esc_attr(apply_filters('woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key)); ?>">
             <td class="product-name">
                 <?php echo wp_kses_post(apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key)) . '&nbsp;'; ?>
-                <?php echo apply_filters('woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf('&times;&nbsp;%s', $cart_item['quantity']) . '</strong>', $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                 ?>
-                <?php echo wc_get_formatted_cart_item_data($cart_item); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                 ?>
+                <?php echo apply_filters('woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf('&times;&nbsp;%s', $cart_item['quantity']) . '</strong>', $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                        ?>
+                <?php echo wc_get_formatted_cart_item_data($cart_item); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                        ?>
             </td>
             <td class="product-total">
-                <?php echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                 ?>
+                <?php echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                        ?>
             </td>
         </tr>
         <?php
@@ -282,8 +299,6 @@ do_action('woocommerce_review_order_before_cart_contents');
 
         $total = WC()->cart->total;
         // print_r(WC()->cart->get_cart_contents_count());
-
-        echo $total;
 
         ?>
 

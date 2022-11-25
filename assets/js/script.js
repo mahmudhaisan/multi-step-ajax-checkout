@@ -120,6 +120,7 @@ jQuery(document).ready(function($) {
           var total_price = 0;
          
           $('.single-product-added-to-cart').append(response);
+          
           $('.product_price_hidden').each(function(){
 
             total_price += parseInt($(this).val());
@@ -162,8 +163,16 @@ jQuery(document).ready(function($) {
 
 
 
-      var product_item_id = $(this).attr('item-id-to-remove');
+      var product_item_id = parseInt($(this).attr('item-id-to-remove'));
       var product_item_name= $(this).attr('item-product-name');
+      var latest_products_arr = $('#latest_products_id_arr').attr('data-latest-products-id');
+      var latest_products_id_obj = JSON.parse(latest_products_arr);
+
+      console.log(typeof(product_item_id));
+      console.log(latest_products_id_obj);
+     
+
+
 
       // $(".woocommerce-checkout-review-order-table").append('<h1>hello</h1>'); 
       
@@ -189,9 +198,20 @@ jQuery(document).ready(function($) {
           'action': 'removed_items_add_to_main_items',
           'removed_product_id': product_item_id,
           'total_product_price': total_price,
+          'latest_products_arr': latest_products_arr
         },
         success: function(response){
-          $('.product-main-items').append(response);
+
+         var product_id_check_in_latest_ids =  Object.values(latest_products_id_obj).includes(product_item_id);
+
+          if(product_id_check_in_latest_ids){
+
+            $('.product-main-items').append(response);
+          }else{
+            $('#list-group-for-search').append(response);
+
+          }
+
           // console.log(response);
 
           $('.product_total_price').empty().append(total_price);
