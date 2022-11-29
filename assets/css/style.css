@@ -281,3 +281,39 @@ div#accordionExamples {
     float: left !important; 
     width: 100% !important; 
 }
+
+.shipping-pick-up-card-1, .shipping-pick-up-card-2{
+    cursor: pointer;
+}
+
+.product-quantity-single input[type=number] {
+    max-width: 100% !important;
+    min-height: 40px !important;
+}
+
+.remove-single-item-btn{
+    width: 100% !important;
+    border-radius: 0;
+}
+
+.first-accordion-item-next, .second-accordion-item-next, .third-accordion-item-next{
+
+    border-radius: 0;
+
+}
+
+.datepicker{
+    padding: 0;
+}
+
+input#datepicker-input {
+    font-size: 18px;
+}
+
+.form-select-pickup-time{
+    font-size: 18px;
+}
+
+.form-check {
+    margin-top: 7px;
+}

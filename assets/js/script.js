@@ -22,6 +22,7 @@ jQuery(document).ready(function($) {
      $("#search-query").focus(function(){
         $("#list-group-for-search").removeClass('d-none');
      }); 
+
     //  $("#search-query").focusout(function(){
     //     $("#list-group-for-search").addClass('d-none');
     //  });
@@ -35,6 +36,7 @@ jQuery(document).ready(function($) {
 
     var product_id = $(this).attr('items-to-add-id');    
     $(this).remove();
+    $('.no-products-text').addClass('d-none');
 
     // ajax on adding single product page
     $.ajax({
@@ -46,6 +48,8 @@ jQuery(document).ready(function($) {
  
         },
         success: function(response){
+
+          $('.total-cart-price-count').remove();
           // console.log(JSON.parse(response));
 
           // console.log(response.find('.response'));
@@ -88,11 +92,13 @@ jQuery(document).ready(function($) {
 
   // search items grid
   $(document).on('click', '.search-result-item', function(e){
+
  
     e.preventDefault();
 
     var product_id = $(this).attr('list-product-id');    
     $(this).remove();
+    $('.no-products-text').addClass('d-none');
 
     
 
@@ -106,6 +112,8 @@ jQuery(document).ready(function($) {
  
         },
         success: function(response){
+
+          $('.total-cart-price-count').remove();
 
 
 
@@ -131,7 +139,7 @@ jQuery(document).ready(function($) {
           $('.product_total_price').empty().append(total_price);
 
           var product_price = $('.single-product-added-to-cart > div:last').attr('cart-total-amount');
-          $('.total-price-of-cart-items').empty().append(product_price);
+          $('.total-price-of-cart-items').empty().append(total_price);
           
           
           // // alert(product_price );
@@ -168,8 +176,7 @@ jQuery(document).ready(function($) {
       var latest_products_arr = $('#latest_products_id_arr').attr('data-latest-products-id');
       var latest_products_id_obj = JSON.parse(latest_products_arr);
 
-      console.log(typeof(product_item_id));
-      console.log(latest_products_id_obj);
+
      
 
 
@@ -202,6 +209,15 @@ jQuery(document).ready(function($) {
         },
         success: function(response){
 
+
+          
+          if(total_price == 0){
+            $('.no-products-text').removeClass('d-none');
+          }
+
+          
+        $('.total-cart-price-count').remove();
+
          var product_id_check_in_latest_ids =  Object.values(latest_products_id_obj).includes(product_item_id);
 
           if(product_id_check_in_latest_ids){
@@ -209,7 +225,6 @@ jQuery(document).ready(function($) {
             $('.product-main-items').append(response);
           }else{
             $('#list-group-for-search').append(response);
-
           }
 
           // console.log(response);
@@ -217,9 +232,10 @@ jQuery(document).ready(function($) {
           $('.product_total_price').empty().append(total_price);
 
           var product_price = $('.single-product-added-to-cart > div:last').attr('cart-total-amount');
-          $('.total-price-of-cart-items').empty().append(product_price);
+          $('.total-price-of-cart-items').empty().append(total_price);
 
           // alert(product_price);
+
 
 
           $('.product_in_cart_info_name_price').remove();
@@ -239,10 +255,6 @@ jQuery(document).ready(function($) {
         }
 
     });   
-
-
-
-
 
     
   })
@@ -276,6 +288,56 @@ jQuery(document).ready(function($) {
   //   $('#fifth-accordion-btn').prop('disabled', false);
   // })
 
+
+
+  $(document).on('click', '.shipping-pick-up-card-1', function(e){
+    $('.shipping-pick-up-card-2').removeClass('bg-dark text-white');
+    $(this).addClass('bg-dark text-white');
+  
+
+  })
+
+  $(document).on('click', '.shipping-pick-up-card-2', function(e){
+
+    $('.shipping-pick-up-card-1').removeClass('bg-dark text-white');
+    $(this).addClass('bg-dark text-white');
+  
+
+  })
+
+  $("#datepicker-input").on("change",function(){
+    var selected = $(this).val();
+    alert(selected);
+});
+
+
+
+  $("select.form-select-pickup-time").change(function(){
+    var selectedCountry = $(this).children("option:selected").val();
+    alert(selectedCountry);
+  });
+
+
+  $(document).on('click', '.shipping-pick-up-cards', function(e){
+      var shipping_cost =  $(this).attr('shipping-cost');
+      // alert(shipping_cost);
+
+       // ajax on adding single product page
+     $.ajax({
+      url: multistep_ajax_script.ajaxurl,
+      type: 'post',
+      data: {
+          'action': 'shipping_pick_up_costs',
+          'shipping_cost' : shipping_cost,
+
+        },
+        success: function(response){
+          console.log(response);
+        }
+
+    });   
+    
+  })
 
 
 

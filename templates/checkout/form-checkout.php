@@ -76,7 +76,10 @@ $woo_currency_symbol = get_woocommerce_currency_symbol();
                                     <div class="">
                                         <!-- showing most popular product in accordion items -->
                                         <div class="mb-3 mt-3 h3 section-title-accordion-item">
-                                            Most Popular Items
+                                            <strong>
+
+                                                Most Popular Items
+                                            </strong>
                                         </div>
                                         <div class="row product-main-items">
 
@@ -123,7 +126,10 @@ foreach ($latest_products_info as $product) {
 
 
                                     <div class="mb-3 mt-3 h3 section-title-accordion-item">
-                                        Don't See Your Item?
+                                        <strong>
+                                            Don't See Your Item?
+                                        </strong>
+
                                     </div>
 
 
@@ -168,24 +174,38 @@ foreach ($all_products_info as $single_product) {
                                     </ul>
                                     <div class="mb-4 mt-4">
                                         <span>
-                                            <p class="h4 new-form-link-text">Have a bunch of items or don't see them
-                                                listed?</p>
-                                            <a href="#" class="h4 new-form-link text-info">Click Here to Book by
-                                                Load
-                                                Size</a>
+                                            <p class="h3 new-form-link-text">
+                                                <strong>
+
+
+                                                    Have a bunch of items or don't see them
+                                                    listed?
+                                                </strong>
+                                            </p>
+                                            <a href="#" class="h3 new-form-link text-danger">Click Here to Book by
+                                                Load Size
+                                            </a>
                                         </span>
                                     </div>
 
 
                                     <!-- product infos -->
                                     <div class="row d-flex justify-content-center my-4">
-                                        <div class="col-md-12 card mb-4">
-                                            <div class="card-header py-3">
-                                                <h5 class="mb-0">My Items</h5>
+                                        <div class="col-md-12 card mb-4 border-0">
+                                            <div class="card-header py-3 bg-dark text-white border-0">
+                                                <h5 class="mb-0 text-white">My Items</h5>
                                             </div>
-                                            <div class="card-body single-product-added-to-cart">
+                                            <div class="card-body single-product-added-to-cart border-0">
 
-                                                <p>Get Products</p>
+                                                <p class="card no-products-text border-0 h3 text-danger">
+
+                                                    <strong>
+
+                                                        There are no products on your cart. please
+                                                        add from upper side.
+                                                    </strong>
+
+                                                </p>
 
 
 
@@ -197,8 +217,8 @@ foreach ($all_products_info as $single_product) {
 
                                     <div
                                         class="d-grid gap-2 d-md-flex justify-content-md-end accordion-next-btn-wrapper">
-                                        <button class="btn btn-primary me-md-2" id="first-accordion-item-next"
-                                            type="button">Next</button>
+                                        <button class="btn btn btn-lg btn-outline-dark me-1 mb-2"
+                                            id="first-accordion-item-next" type="button">Next</button>
                                     </div>
                                 </div>
                             </div>
@@ -225,10 +245,17 @@ foreach ($all_products_info as $single_product) {
                                     <div class="col-md-6">
 
 
+
+
                                         <div id="date-picker-example"
                                             class="md-form md-outline input-with-post-icon datepicker" inline="true">
-                                            <input placeholder="Select date" type="date" id="example"
+                                            <input placeholder="Select date" type="date" id="datepicker-input"
                                                 class="form-control">
+
+                                            <h4 class="text-success mt-3 font-italic">
+                                                We allow scheduling for next day up to 90 days in
+                                                advance!
+                                            </h4>
                                         </div>
 
 
@@ -237,18 +264,76 @@ foreach ($all_products_info as $single_product) {
 
                                     <!-- calender row -->
                                     <div class="col-md-6">
-                                        <select class="form-select form-select-lg mb-3"
+                                        <select class="form-select form-select-lg mb-3 form-select-pickup-time"
                                             aria-label=".form-select-lg example">
                                             <option selected>Open this select menu</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            <option value="morning">Morning(8am - 12am)</option>
+                                            <option value="afternoon">Afternoon(12pm - 4pm)</option>
+                                            <option value="evening">Evening(4pm - 8pm)</option>
+                                            <option value="all-day">All Day(8am - 8pm)</option>
                                         </select>
                                     </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-10">
+
+                                            <h3>
+                                                Would you like us to complete your order as soon as possible?
+                                            </h3>
+
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    id="flexCheckDefault">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="">
+
+                                        <h4 class="text-success font-italic">
+                                            If we can accommodate an earlier time and/or date, we will contact you to
+                                            verify the change. This could be as soon as 1 hour from the time your
+                                            booking is placed. If we are unable to come sooner, we will work your order
+                                            according to your scheduled date/time you've selected.
+                                        </h4>
+
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <h4>
+                                                Special Instructions
+                                            </h4>
+
+
+                                        </div>
+                                        <div class="col-md-7">
+                                            <h4>
+                                                (mattress size, dimensions, description, etc.)
+                                            </h4>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <textarea class="form-control" id="exampleFormControlTextarea1"
+                                                rows="6"></textarea>
+                                        </div>
+
+
+                                    </div>
+
+
+
+
                                     <div
-                                        class="d-grid gap-2 d-md-flex justify-content-md-end accordion-next-btn-wrapper">
-                                        <button class="btn btn-primary me-md-2" id="second-accordion-item-next"
-                                            type="button">Next</button>
+                                        class="d-grid gap-2 d-md-flex justify-content-md-end accordion-next-btn-wrapper mt-5">
+                                        <button class="btn btn btn-lg btn-outline-dark me-1 mb-2"
+                                            id="second-accordion-item-next" type="button">Next</button>
                                     </div>
 
                                 </div>
@@ -271,8 +356,47 @@ foreach ($all_products_info as $single_product) {
                             data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <h1>In Home or Outdoor Pickup?</h1>
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-end accordion-next-btn-wrapper">
-                                    <button class="btn btn-primary me-md-2" id="third-accordion-item-next"
+
+
+                                <div class="mb-2">
+
+
+                                    <div class="card shipping-pick-up-card-1 shipping-pick-up-cards bg-dark text-white"
+                                        shipping-cost="0">
+                                        <div class="card-body">
+                                            <p class="mb-0 shipping-pick-up-heading">
+                                                <strong>In Home Pick Up</strong>
+                                            </p>
+                                            <p class="mb-0">Your Loaders will remove and transport your item(s) from
+                                                inside your
+                                                home.</p>
+                                        </div>
+
+                                    </div>
+                                    <div class="card mt-3 shipping-pick-up-card-2 shipping-pick-up-cards"
+                                        shipping-cost="5">
+                                        <div class="card-body">
+                                            <p class="mb-0 shipping-pick-up-heading">
+                                                <strong> Outdoor Pick Up </strong> ($5 Discount)
+                                            </p>
+                                            <p class="mb-0">Your Loaders will pick up your item(s) from outside your
+                                                home or building. You are responsible for placing your item(s) outdoors
+                                                and are not required to be present during the pickup. *$5 Discount is
+                                                not applicable with promo code.*</p>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+
+                                <div
+                                    class="d-grid gap-2 d-md-flex justify-content-md-end accordion-next-btn-wrapper  mt-5">
+                                    <button class="btn btn-lg btn-outline-dark me-1 mb-2" id="third-accordion-item-next"
                                         type="button">Next</button>
                                 </div>
 
@@ -317,8 +441,8 @@ foreach ($all_products_info as $single_product) {
                                 <?php endif;?>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end accordion-next-btn-wrapper">
 
-                                    <button class="btn btn-primary me-md-2" id="fourth-accordion-item-next"
-                                        type="button">Next</button>
+                                    <button class="btn btn-lg btn-outline-dark me-1 mb-2"
+                                        id="fourth-accordion-item-next" type="button">Next</button>
 
                                 </div>
 

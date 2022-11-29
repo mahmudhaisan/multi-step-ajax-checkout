@@ -13,7 +13,11 @@ class Ajax
 
         //click and add on cart ajax actions from main products grid
         add_action('wp_ajax_search_result_products_action', [$this, 'search_result_products_action']);
-        add_action('wp_ajax_nopriv_search_result_products_action', [$this, 'search_result_products_action']);
+        add_action('wp_ajax_nopriv_search_result_products_action', [$this, 'search_result_products_action']); //click and add on cart ajax actions from main products grid
+
+        //shipping pick up costs
+        add_action('wp_ajax_shipping_pick_up_costs', [$this, 'shipping_pick_up_costs']);
+        add_action('wp_ajax_nopriv_shipping_pick_up_costs', [$this, 'shipping_pick_up_costs']);
 
         //click and remove on cart ajax actions
         add_action('wp_ajax_removed_items_add_to_main_items', [$this, 'removed_items_add_to_main_items']);
@@ -27,6 +31,7 @@ class Ajax
         $product_name = $product_query->get_name();
         $product_image_by_id = wp_get_attachment_image_src(get_post_thumbnail_id($product_id), 'single-post-thumbnail')[0];
         $product_price = $product_query->get_price();
+
         WC()->cart->add_to_cart($product_id, 1);
 
         $total = WC()->cart->total;
@@ -34,12 +39,14 @@ class Ajax
 
         ?>
 
+<input type="hidden" class="total-cart-price-count" data-price="<?php echo $total; ?>">
+
 <!-- Single item -->
 <div class="product-added-single-page" cart-product-name="<?php echo $product_name; ?>"
     cart-product-price="<?php echo $product_price; ?>" product-id-to-remove="<?php echo $product_id; ?>"
     cart-total-amount="<?php echo $total; ?>">
-    <div class="row product-row">
-        <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+    <div class="row product-row mb-3 border-bottom-1">
+        <div class="col-md-3">
 
 
 
@@ -54,9 +61,7 @@ class Ajax
             <!-- Image -->
         </div>
 
-
-
-        <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+        <div class="col-md-7">
             <!-- Data -->
             <p><strong><?php echo $product_name; ?></strong>
             </p>
@@ -66,7 +71,7 @@ class Ajax
 
 
         <!-- quantity -->
-        <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+        <div class="col-md-2">
             <!-- Quantity -->
             <div class="d-flex mb-4" style="max-width: 300px">
 
@@ -75,7 +80,7 @@ class Ajax
         $quan_num = 1;
 
         ?>
-                <div class="form-outline">
+                <div class="form-outline product-quantity-single">
                     <input type="hidden" class="product_price_hidden" value="<?php echo $product_price; ?>">
                     <input name="cart_quantity_number" min="0" onchange="quantity_number()"
                         max="<?php echo 'product_stock_quantity'; ?>" value="<?php echo $quan_num; ?>" type="number"
@@ -85,10 +90,10 @@ class Ajax
             </div>
             <!-- Quantity -->
 
-            <button type="button" class="remove-single-item-btn btn btn-white btn-sm border border-primary me-1 mb-2"
+            <button type="button" class="remove-single-item-btn btn btn-lg btn-outline-dark me-1 mb-2"
                 item-id-to-remove="<?php echo $product_id; ?>" item-product-name="<?php echo $product_name; ?>"
                 data-mdb-toggle="tooltip" title="">
-                Remove Item
+                Remove
             </button>
 
 
@@ -128,6 +133,8 @@ class Ajax
         $total = WC()->cart->total;
 
         if (in_array($removed_product_id, $latest_products_arr)) {?>
+
+<input type="hidden" class="total-cart-price-count" data-price="<?php echo $total; ?>">
 
 
 <div class="col-md-3 col-sm-4 product-add-to-cart-ajax" items-to-add-name="<?php echo $product_name; ?>"
@@ -212,11 +219,11 @@ do_action('woocommerce_review_order_before_cart_contents');
             class="<?php echo esc_attr(apply_filters('woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key)); ?>">
             <td class="product-name">
                 <?php echo wp_kses_post(apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key)) . '&nbsp;'; ?>
-                <?php echo apply_filters('woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf('&times;&nbsp;%s', $cart_item['quantity']) . '</strong>', $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                        ?>
-                <?php echo wc_get_formatted_cart_item_data($cart_item); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                        ?>
+                <?php echo apply_filters('woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf('&times;&nbsp;%s', $cart_item['quantity']) . '</strong>', $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                        ?>
+                <?php echo wc_get_formatted_cart_item_data($cart_item); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                        ?>
             </td>
             <td class="product-total">
-                <?php echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                        ?>
+                <?php echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                        ?>
             </td>
         </tr>
         <?php
@@ -302,12 +309,14 @@ do_action('woocommerce_review_order_before_cart_contents');
 
         ?>
 
+<input type="hidden" class="total-cart-price-count" data-price="<?php echo $total; ?>">
+
 <!-- Single item -->
 <div class="product-added-single-page" cart-product-name="<?php echo $product_name; ?>"
     cart-product-price="<?php echo $product_price; ?>" product-id-to-remove="<?php echo $product_id; ?>"
     cart-total-amount="<?php echo $total; ?>">
-    <div class="row product-row">
-        <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+    <div class="row product-row mb-3">
+        <div class="col-md-3">
 
 
 
@@ -324,7 +333,7 @@ do_action('woocommerce_review_order_before_cart_contents');
 
 
 
-        <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+        <div class="col-md-7">
             <!-- Data -->
             <p><strong><?php echo $product_name; ?></strong>
             </p>
@@ -334,7 +343,7 @@ do_action('woocommerce_review_order_before_cart_contents');
 
 
         <!-- quantity -->
-        <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+        <div class="col-md-2">
             <!-- Quantity -->
             <div class="d-flex mb-4" style="max-width: 300px">
 
@@ -343,20 +352,20 @@ do_action('woocommerce_review_order_before_cart_contents');
         $quan_num = 1;
 
         ?>
-                <div class="form-outline">
+                <div class="form-outline product-quantity-single">
                     <input type="hidden" class="product_price_hidden" value="<?php echo $product_price; ?>">
                     <input name="cart_quantity_number" min="0" onchange="quantity_number()"
                         max="<?php echo 'product_stock_quantity'; ?>" value="<?php echo $quan_num; ?>" type="number"
-                        class="form-control itemQty" />
+                        class="form-control itemQty " />
 
                 </div>
             </div>
             <!-- Quantity -->
 
-            <button type="button" class="remove-single-item-btn btn btn-white btn-sm border border-primary me-1 mb-2"
+            <button type="button" class="remove-single-item-btn btn btn-lg btn-outline-dark me-1 mb-2"
                 item-id-to-remove="<?php echo $product_id; ?>" item-product-name="<?php echo $product_name; ?>"
                 data-mdb-toggle="tooltip" title="">
-                Remove Item
+                Remove
             </button>
 
 
@@ -369,6 +378,39 @@ do_action('woocommerce_review_order_before_cart_contents');
         wp_die();
 
     }
+
+    public function shipping_pick_up_costs()
+    {
+        global $woocommerce, $wpdb;
+        $shipping_cost = $_POST['shipping_cost'];
+
+        var_dump($shipping_cost);
+
+        $shipping_methods = 'SELECT * FROM `wp_woocommerce_shipping_zone_methods`';
+
+        $shipping_methods_results = $wpdb->get_results($shipping_methods, ARRAY_A);
+
+        foreach ($shipping_methods_results as $shipping_methods_result) {
+
+            $shipping_methods_id = $shipping_methods_result['method_id'];
+            $shipping_methods_enable_status = $shipping_methods_result['is_enabled'];
+
+            if ($shipping_cost == '0') {
+                $wpdb->update('wp_woocommerce_shipping_zone_methods', array('is_enabled' => 0), array('method_id' => 'flat_rate'));
+                $wpdb->update('wp_woocommerce_shipping_zone_methods', array('is_enabled' => 1), array('method_id' => 'local_pickup'));
+
+            } elseif ($shipping_cost) {
+                $wpdb->update('wp_woocommerce_shipping_zone_methods', array('is_enabled' => 1), array('method_id' => 'flat_rate'));
+                $wpdb->update('wp_woocommerce_shipping_zone_methods', array('is_enabled' => 0), array('method_id' => 'local_pickup'));
+
+            }
+
+            // echo '<br>';
+        }
+
+        wp_die();
+    }
+
 }
 
 ?>

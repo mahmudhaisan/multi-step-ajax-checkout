@@ -25,6 +25,7 @@ class Shortcode
         add_filter('woocommerce_checkout_redirect_empty_cart', '__return_false');
         add_filter('woocommerce_checkout_update_order_review_expired', '__return_false');
         add_action('init', [$this, 'register_my_session']);
+        add_action('init', [$this, 'woocommerce_default_shipping_method']);
         add_action('woocommerce_checkout_order_review', [$this, 'checkout_total_product_summary_woocommerce']);
     }
 
@@ -141,5 +142,13 @@ class Shortcode
 </table>
 
 <?php }
+
+    public function woocommerce_default_shipping_method()
+    {
+        global $wpdb;
+        $wpdb->update('wp_woocommerce_shipping_zone_methods', array('is_enabled' => 0), array('method_id' => 'flat_rate'));
+        $wpdb->update('wp_woocommerce_shipping_zone_methods', array('is_enabled' => 1), array('method_id' => 'local_pickup'));
+
+    }
 
 }

@@ -103,6 +103,7 @@ final class Multi_Step_Ajax_Checkout
     {
         // styles
         wp_enqueue_style('bootstrap-file', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/css/bootstrap.min.css');
+        wp_enqueue_style('datepicker-file', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/css/bootstrap-datepicker.css');
         wp_enqueue_style('style-file', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/css/style.css');
         wp_enqueue_style('fontawesome-file', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/css/all.min.css');
         wp_enqueue_style('fontawesome-file', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/css/fontawesome.min.css');
@@ -111,6 +112,8 @@ final class Multi_Step_Ajax_Checkout
         wp_enqueue_script('bootstrap-file', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/js/bootstrap.min.js', array('jquery'), false, true);
         wp_enqueue_script('script_multi_step_accordion', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/js/accordion-multi-step-form.js', array('jquery'), false, true);
         wp_enqueue_script('live-search-script', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/js/jquery.live.search.min.js', array('jquery'), false, true);
+        // wp_enqueue_script('datepicker-script', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/js/bootstrap-datepicker.js', array('jquery'), false, true);
+        // wp_enqueue_script('jqueryui-script', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/js/jquery-ui.js', array('jquery'), false, true);
         wp_enqueue_script('script_file', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/js/script.js', array('jquery'), false, true);
         wp_localize_script(
             'script_file',
