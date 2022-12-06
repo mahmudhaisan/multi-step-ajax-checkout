@@ -4,6 +4,8 @@
 
 jQuery(document).ready(function($) {
 
+  var currency_symbol = multistep_ajax_script.currency_symbol;
+
     // form accordion
     $("#form_multi").accWizard();
 
@@ -34,6 +36,10 @@ jQuery(document).ready(function($) {
  
     e.preventDefault();
 
+    
+
+    // alert(currency_symbol);
+
     var product_id = $(this).attr('items-to-add-id');    
     $(this).remove();
     $('.no-products-text').addClass('d-none');
@@ -44,7 +50,7 @@ jQuery(document).ready(function($) {
       type: 'post',
       data: {
           'action': 'get_products_info',
-          'product_id': product_id
+          'product_id': product_id,
  
         },
         success: function(response){
@@ -64,10 +70,10 @@ jQuery(document).ready(function($) {
 
           // var cart_total_price = $(this).attr('cart-item-total-price');
 
-          $('.product_total_price').empty().append(total_price);
+          $('.product_total_price').empty().append(currency_symbol + total_price);
 
           var product_price = $('.single-product-added-to-cart > div:last').attr('cart-total-amount');
-          $('.total-price-of-cart-items').empty().append(product_price);
+          $('.total-price-of-cart-items').empty().append(currency_symbol + product_price);
           
           
           // alert(product_price );
@@ -77,7 +83,7 @@ jQuery(document).ready(function($) {
           $('.product-added-single-page').each(function(){
             var cart_product_name = $(this).attr('cart-product-name');
             var cart_product_price = $(this).attr('cart-product-price');
-            $('.shopping_cart_products_body').prepend('<tr class="product_in_cart_info_name_price"><td>'+ cart_product_name +' </td> <td> '+ cart_product_price +'</td></tr>');
+            $('.shopping_cart_products_body').prepend('<tr class="product_in_cart_info_name_price"><td>'+ cart_product_name +' </td> <td> '+ currency_symbol +  cart_product_price +'</td></tr>');
             
           });
           
@@ -136,10 +142,10 @@ jQuery(document).ready(function($) {
 
           // var cart_total_price = $(this).attr('cart-item-total-price');
 
-          $('.product_total_price').empty().append(total_price);
+          $('.product_total_price').empty().append( currency_symbol + total_price);
 
           var product_price = $('.single-product-added-to-cart > div:last').attr('cart-total-amount');
-          $('.total-price-of-cart-items').empty().append(total_price);
+          $('.total-price-of-cart-items').empty().append(currency_symbol + total_price);
           
           
           // // alert(product_price );
@@ -149,7 +155,7 @@ jQuery(document).ready(function($) {
           $('.product-added-single-page').each(function(){
             var cart_product_name = $(this).attr('cart-product-name');
             var cart_product_price = $(this).attr('cart-product-price');
-            $('.shopping_cart_products_body').prepend('<tr class="product_in_cart_info_name_price"><td>'+ cart_product_name +' </td> <td> '+ cart_product_price +'</td></tr>');
+            $('.shopping_cart_products_body').prepend('<tr class="product_in_cart_info_name_price"><td>'+ cart_product_name +' </td> <td> '+ currency_symbol +  cart_product_price +'</td></tr>');
             
           });
           
@@ -229,10 +235,10 @@ jQuery(document).ready(function($) {
 
           // console.log(response);
 
-          $('.product_total_price').empty().append(total_price);
+          $('.product_total_price').empty().append(currency_symbol + total_price);
 
           var product_price = $('.single-product-added-to-cart > div:last').attr('cart-total-amount');
-          $('.total-price-of-cart-items').empty().append(total_price);
+          $('.total-price-of-cart-items').empty().append(currency_symbol + total_price);
 
           // alert(product_price);
 
@@ -243,7 +249,7 @@ jQuery(document).ready(function($) {
           $('.product-added-single-page').each(function(){
             var cart_product_name = $(this).attr('cart-product-name');
             var cart_product_price = $(this).attr('cart-product-price');
-            $('.shopping_cart_products_body').prepend('<tr class="product_in_cart_info_name_price"><td>'+ cart_product_name +' </td> <td> '+ cart_product_price +'</td></tr>');
+            $('.shopping_cart_products_body').prepend('<tr class="product_in_cart_info_name_price"><td>'+ cart_product_name +' </td> <td> ' + currency_symbol +  cart_product_price +'</td></tr>');
             
           });
 
@@ -318,7 +324,7 @@ jQuery(document).ready(function($) {
   });
 
 
-  $(document).on('click', '.shipping-pick-up-cards', function(e){
+  $('.shipping-pick-up-cards').click(function(e){
       var shipping_cost =  $(this).attr('shipping-cost');
       // alert(shipping_cost);
 
@@ -332,6 +338,7 @@ jQuery(document).ready(function($) {
 
         },
         success: function(response){
+          $('body').trigger('update_checkout');
           console.log(response);
         }
 
@@ -339,10 +346,32 @@ jQuery(document).ready(function($) {
     
   })
 
+  $('.radio-add-to-cart-ajax').click(function (e) {
+    e.preventDefault();
+    
+    $('.radio-add-to-cart-ajax').removeClass('selected');
+    $(this).addClass('selected');
+});
+
+
+
+
 
 
 
   });
 
  
+  // jQuery(document).ready(function($) {
+  //   $('.pafe-form-builder-button').click(function(e){
+
+  //    var form_field_username =  $("#form-field-username").val();
+
+  //    alert(form_field_username);
+
+  //   })
+
+  // })
+
+  
 

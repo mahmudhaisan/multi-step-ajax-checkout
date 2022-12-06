@@ -101,6 +101,7 @@ final class Multi_Step_Ajax_Checkout
     //enqueue files
     public function enqueue_files()
     {
+        $woo_currency_symbol = get_woocommerce_currency_symbol();
         // styles
         wp_enqueue_style('bootstrap-file', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/css/bootstrap.min.css');
         wp_enqueue_style('datepicker-file', MULTI_STEP_AJAX_PLUGIN_ASSETS . '/css/bootstrap-datepicker.css');
@@ -120,6 +121,7 @@ final class Multi_Step_Ajax_Checkout
             'multistep_ajax_script',
             array(
                 'ajaxurl' => admin_url('admin-ajax.php'),
+                'currency_symbol' => $woo_currency_symbol,
             )
         );
     }

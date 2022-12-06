@@ -28,9 +28,9 @@ if (!$checkout->is_registration_enabled() && $checkout->is_registration_required
     return;
 }
 
-if (is_checkout()) {
-    WC()->cart->empty_cart();
-}
+// if (is_checkout()) {
+//     WC()->cart->empty_cart();
+// }
 
 $latest_products_args = array(
     'status' => 'publish',
@@ -43,6 +43,9 @@ $latest_products_info = wc_get_products($latest_products_args);
 
 $cart_total_price = WC()->cart->get_cart_contents_total();
 $woo_currency_symbol = get_woocommerce_currency_symbol();
+
+global $post;
+echo $post->ID;
 
 // include MULTI_STEP_AJAX_PLUGINS_DIR_PATH . 'includes/Frontend/templates/form-html.php';
 
@@ -498,6 +501,7 @@ foreach ($all_products_info as $single_product) {
                     <h3 class="text-center">Order Details</h3>
                     <div class="row price-row mt-2">
                         <h4 class="mb-0 p-3">Guranteed Price:
+
                             <span class="product_total_price"></span>
 
 
