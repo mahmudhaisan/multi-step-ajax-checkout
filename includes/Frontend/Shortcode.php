@@ -10,13 +10,22 @@ class Shortcode
 {
     public function __construct()
     {
+        add_action('wp_loaded', [$this, 'all_hooks_used_woocommerce']);
+
+        // $this->all_hooks_used_woocommerce();
+
+    }
+
+    public function all_hooks_used_woocommerce()
+    {
+
         add_shortcode('multi_step_form_frontend', [$this, 'accordion_multi_step_frontend']);
 
         add_filter('woocommerce_enable_order_notes_field', '__return_false', 9999);
         add_action('woocommerce_before_checkout_form', [$this, 'remove_checkout_coupon_form'], 9);
         add_filter('wc_add_to_cart_message', '__return_false');
         // add_action('woocommerce_after_checkout_billing_form', [$this, 'test_html_in_checkout']);
-        add_action('woocommerce_checkout_order_review', [$this, 'remove_checkout_totals'], 1);
+
         add_filter('woocommerce_cart_needs_payment', '__return_true');
         add_filter('woocommerce_order_button_html', [$this, 'remove_order_button_html']);
         add_action('add_payment_details_in_checkout_accordion', [$this, 'second_place_order_button'], 1111);
@@ -27,17 +36,13 @@ class Shortcode
         add_filter('woocommerce_checkout_update_order_review_expired', '__return_false');
         add_action('init', [$this, 'register_my_session']);
         add_action('init', [$this, 'woocommerce_default_shipping_method']);
-        add_action('woocommerce_checkout_order_review', [$this, 'checkout_total_product_summary_woocommerce']);
+
+        //add_action('woocommerce_checkout_order_review', [$this, 'checkout_total_product_summary_woocommerce']);
         // add_action('woocommerce_review_order_before_order_total', 'woocommerce_review_order_before_shipping_fn');
         add_shortcode('form_data_values', [$this, 'show_form_data']);
-    }
-
-    public function accordion_multi_step_frontend()
-    {
-
-        // global $woocommerce;
-
-        require MULTI_STEP_AJAX_DIR_PATH . '/includes/Frontend/templates/form-html.php';
+        // Ajax update on gateway change
+        add_action('wp_footer', [$this, 'woo_checkout_ajax_trigger']);
+        add_action('woocommerce_cart_calculate_fees', [$this, 'woocommerce_cart_selected_shipping_fees']);
 
     }
 
@@ -46,8 +51,6 @@ class Shortcode
 
         remove_action('woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form', 10);
     }
-
-    // On checkout page
 
     public function remove_checkout_totals()
     {
@@ -85,7 +88,9 @@ class Shortcode
 
             if ($page_id_num == 80) {
                 WC()->cart->empty_cart();
+
                 $template = MULTI_STEP_AJAX_PLUGINS_DIR_PATH . 'templates/checkout/form-checkout.php';
+
             } else {
                 $template = MULTI_STEP_AJAX_PLUGINS_DIR_PATH . 'templates/checkout/load-up-form-checkout.php';
 
@@ -109,20 +114,25 @@ class Shortcode
     }
 
     // Start session if not started
-
     public function register_my_session()
     {
-        if (!session_id()) {
-            session_start();
-        }
+        WC()->session->__unset('selected_shipping_cost');
     }
     public function checkout_total_product_summary_woocommerce()
     {
 
         $total_cart_product_price = WC()->cart->get_cart_contents_total();
         $currency_symbol = get_woocommerce_currency_symbol();
+        global $post;
+        $page_id_num = $post->ID;
 
-        ?>
+        if ($page_id_num == 80) {
+            $selected_shipping_cost = WC()->session->get('selected_shipping_cost');
+            //var_dump($selected_shipping_cost);
+
+            ?>
+
+
 
 <table class="table">
     <thead>
@@ -159,13 +169,12 @@ class Shortcode
     </tbody>
 </table>
 
+
 <?php }
+    }
 
     public function woocommerce_default_shipping_method()
     {
-        global $wpdb;
-        $wpdb->update('wp_woocommerce_shipping_zone_methods', array('is_enabled' => 0), array('method_id' => 'flat_rate'));
-        $wpdb->update('wp_woocommerce_shipping_zone_methods', array('is_enabled' => 1), array('method_id' => 'local_pickup'));
 
     }
 
@@ -181,6 +190,49 @@ class Shortcode
         echo $slug;
 
         var_dump(session_id());
+
+    }
+
+    public function woo_checkout_ajax_trigger()
+    {
+        if (is_checkout() && !is_wc_endpoint_url()) {
+            WC()->session->__unset('selected_shipping_cost');
+            ?>
+<script>
+jQuery(function($) {
+
+    $('form.checkout').on('click mouseout', '.product-add-to-cart-ajax', function() {
+        $(document.body).trigger('update_checkout');
+    });
+
+    $('form.checkout').on('click', '.remove-single-item-btn', function() {
+        $(document.body).trigger('update_checkout');
+    });
+
+    $('.cart-single-page-item-added-from-main').hover(function() {
+        $(document.body).trigger('update_checkout');
+    });
+
+    $('form.checkout').mouseout(function() {
+        $(document.body).trigger('update_checkout');
+    });
+
+
+});
+</script>
+<?php
+}
+    }
+
+    public function woocommerce_cart_selected_shipping_fees($cart)
+    {
+        if (is_admin() && !defined('DOING_AJAX') || !$_POST) {
+            return;
+        }
+
+        $selected_shipping_cost = WC()->session->get('selected_shipping_cost');
+
+        $cart->add_fee('shipping_cost', $selected_shipping_cost, true);
 
     }
 

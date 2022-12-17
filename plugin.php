@@ -4,7 +4,7 @@
  * Plugin Name: Multi Step Ajax Checkout
  * Plugin URI: https://github.com/mahmudhaisan/
  * Description: Multi Step Ajax Product Checkout
- * Version: 1.0
+ * Version: 1.1
  * Author: Mahmud haisan
  * Author URI: https://github.com/mahmudhaisan
  * Developer: Mahmud Haisan

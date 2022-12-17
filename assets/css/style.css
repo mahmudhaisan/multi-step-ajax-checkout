@@ -349,3 +349,30 @@ input#datepicker-input {
     filter: grayscale(0%);
 }
 
+
+.radio-fixed-details-card, .cart-product-select-item{
+    cursor: pointer;
+}
+
+.radio-fixed-details-card:hover, .radio-card-active, .load-size-type{
+    background-color: #a5e03f;
+    
+}
+
+.load-size-row{
+    background-color: #a5e03f;
+    padding: 10px;
+    
+}
+.card-product-active, .cart-product-select-item:hover{
+
+    background-color: #f4f7f8;
+}
+
+.card-height-equal{
+    height: 220px;
+}
+.loadup-billing-fields label{
+    font-size: 18px;
+    color: #000;
+}

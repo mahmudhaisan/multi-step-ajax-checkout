@@ -21,7 +21,13 @@ class Ajax
 
         //shipping pick up costs
         add_action('wp_ajax_shipping_pick_up_costs', [$this, 'shipping_pick_up_costs']);
-        add_action('wp_ajax_nopriv_shipping_pick_up_costs', [$this, 'shipping_pick_up_costs']);
+        add_action('wp_ajax_nopriv_shipping_pick_up_costs', [$this, 'shipping_pick_up_costs']); //shipping pick up costs
+
+        add_action('wp_ajax_loadup_product_add_to_cart', [$this, 'loadup_product_add_to_cart']);
+        add_action('wp_ajax_nopriv_loadup_product_add_to_cart', [$this, 'loadup_product_add_to_cart']);
+
+        add_action('wp_ajax_add_to_cart_product_quantity_update', [$this, 'add_to_cart_product_quantity_update']);
+        add_action('wp_ajax_nopriv_add_to_cart_product_quantity_update', [$this, 'add_to_cart_product_quantity_update']);
     }
 
     public function get_products_info()
@@ -35,6 +41,7 @@ class Ajax
         WC()->cart->add_to_cart($product_id, 1);
 
         $total = WC()->cart->total;
+
         // print_r(WC()->cart->get_cart_contents_count());
 
         ?>
@@ -82,9 +89,9 @@ class Ajax
         ?>
                 <div class="form-outline product-quantity-single">
                     <input type="hidden" class="product_price_hidden" value="<?php echo $product_price; ?>">
-                    <input name="cart_quantity_number" min="0" onchange="quantity_number()"
-                        max="<?php echo 'product_stock_quantity'; ?>" value="<?php echo $quan_num; ?>" type="number"
-                        class="form-control itemQty" />
+                    <input name="cart_quantity_number" min="1" max="<?php echo 'product_stock_quantity'; ?>"
+                        value="<?php echo $quan_num; ?>" product-id-val="<?php echo $product_id ?>" type="number"
+                        class="form-control itemQty product-quantity-val" />
 
                 </div>
             </div>
@@ -112,6 +119,7 @@ class Ajax
 
     public function removed_items_add_to_main_items()
     {
+
         $removed_product_id = $_POST['removed_product_id'];
         $products_total_price = $_POST['total_product_price'];
         $latest_products_arr = json_decode($_POST['latest_products_arr']);
@@ -188,6 +196,7 @@ class Ajax
 
     public function action_woocommerce_checkout_before_order_review()
     {
+        echo $_SESSION['selected_shipping_cost'];
         // echo 'hello';
         $total = WC()->cart->total;
 
@@ -222,11 +231,11 @@ do_action('woocommerce_review_order_before_cart_contents');
             class="<?php echo esc_attr(apply_filters('woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key)); ?>">
             <td class="product-name">
                 <?php echo wp_kses_post(apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key)) . '&nbsp;'; ?>
-                <?php echo apply_filters('woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf('&times;&nbsp;%s', $cart_item['quantity']) . '</strong>', $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                         ?>
-                <?php echo wc_get_formatted_cart_item_data($cart_item); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                         ?>
+                <?php echo apply_filters('woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf('&times;&nbsp;%s', $cart_item['quantity']) . '</strong>', $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                                                                                  ?>
+                <?php echo wc_get_formatted_cart_item_data($cart_item); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                                                                                  ?>
             </td>
             <td class="product-total">
-                <?php echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                         ?>
+                <?php echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                                                                                  ?>
             </td>
         </tr>
         <?php
@@ -357,9 +366,9 @@ do_action('woocommerce_review_order_before_cart_contents');
         ?>
                 <div class="form-outline product-quantity-single">
                     <input type="hidden" class="product_price_hidden" value="<?php echo $product_price; ?>">
-                    <input name="cart_quantity_number" min="0" onchange="quantity_number()"
-                        max="<?php echo 'product_stock_quantity'; ?>" value="<?php echo $quan_num; ?>" type="number"
-                        class="form-control itemQty " />
+                    <input name="cart_quantity_number" min="1" max="<?php echo 'product_stock_quantity'; ?>"
+                        value="<?php echo $quan_num; ?>" type="number"
+                        class="form-control itemQty product-quantity-val" />
 
                 </div>
             </div>
@@ -384,38 +393,37 @@ do_action('woocommerce_review_order_before_cart_contents');
 
     public function shipping_pick_up_costs()
     {
-        global $woocommerce, $wpdb;
         $shipping_cost = $_POST['shipping_cost'];
+        WC()->session->set('selected_shipping_cost', $shipping_cost);
+        wp_die();
+    }
 
-        var_dump($shipping_cost);
-
-        $shipping_methods = 'SELECT * FROM `wp_woocommerce_shipping_zone_methods`';
-
-        $shipping_methods_results = $wpdb->get_results($shipping_methods, ARRAY_A);
-
-        foreach ($shipping_methods_results as $shipping_methods_result) {
-            $shipping_methods_id = $shipping_methods_result['method_id'];
-            $shipping_methods_enable_status = $shipping_methods_result['is_enabled'];
-
-            if ($shipping_cost == '0') {
-                $wpdb->update('wp_woocommerce_shipping_zone_methods', array('is_enabled' => 0), array('method_id' => 'flat_rate'));
-                $wpdb->update('wp_woocommerce_shipping_zone_methods', array('is_enabled' => 1), array('method_id' => 'local_pickup'));
-
-            } else {
-                $wpdb->update('wp_woocommerce_shipping_zone_methods', array('is_enabled' => 1), array('method_id' => 'flat_rate'));
-                $wpdb->update('wp_woocommerce_shipping_zone_methods', array('is_enabled' => 0), array('method_id' => 'local_pickup'));
-            }
-
-        }?>
-
-
-<?php
-// print_r($shipping_methods_results);
-
+    public function loadup_product_add_to_cart()
+    {
+        WC()->cart->empty_cart();
+        $loadup_add_item_id = $_POST['loadup_add_item_id'];
+        WC()->cart->add_to_cart($loadup_add_item_id, 1);
         $total = WC()->cart->total;
         echo $total;
 
         wp_die();
+    }
+
+    public function add_to_cart_product_quantity_update()
+    {
+        $product_quantity_id = $_POST['product_quantity_id'];
+        $product_quantity_value = $_POST['product_quantity_value'];
+
+        foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
+            if ($cart_item['product_id'] == $product_quantity_id) {
+                WC()->cart->remove_cart_item($cart_item_key);
+            }
+        }
+
+        WC()->cart->add_to_cart($product_quantity_id, $product_quantity_value);
+
+        wp_die();
+
     }
 
 }

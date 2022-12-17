@@ -174,31 +174,15 @@ jQuery(document).ready(function($) {
   $(document).on('click', '.remove-single-item-btn', function(e){
 
     e.preventDefault();
-
-
-
       var product_item_id = parseInt($(this).attr('item-id-to-remove'));
       var product_item_name= $(this).attr('item-product-name');
       var latest_products_arr = $('#latest_products_id_arr').attr('data-latest-products-id');
       var latest_products_id_obj = JSON.parse(latest_products_arr);
-
-
-     
-
-
-
       // $(".woocommerce-checkout-review-order-table").append('<h1>hello</h1>'); 
-      
-
-
-    
       $(this).closest('.product-added-single-page').remove();
-
-
       var total_price = 0;
 
       $('.product_price_hidden').each(function(){
-
         total_price += parseInt($(this).val());
       });
     
@@ -215,19 +199,13 @@ jQuery(document).ready(function($) {
         },
         success: function(response){
 
-
-          
           if(total_price == 0){
             $('.no-products-text').removeClass('d-none');
           }
-
           
         $('.total-cart-price-count').remove();
-
          var product_id_check_in_latest_ids =  Object.values(latest_products_id_obj).includes(product_item_id);
-
           if(product_id_check_in_latest_ids){
-
             $('.product-main-items').append(response);
           }else{
             $('#list-group-for-search').append(response);
@@ -313,14 +291,14 @@ jQuery(document).ready(function($) {
 
   $("#datepicker-input").on("change",function(){
     var selected = $(this).val();
-    alert(selected);
+    $('.loadup-billing-details').attr('loadup-pickup-date', selected);
 });
 
 
 
   $("select.form-select-pickup-time").change(function(){
-    var selectedCountry = $(this).children("option:selected").val();
-    alert(selectedCountry);
+    var selected_time = $(this).children("option:selected").val();
+    $('.loadup-billing-details').attr('loadup-pickup-time', selected_time);
   });
 
 
@@ -338,28 +316,212 @@ jQuery(document).ready(function($) {
 
         },
         success: function(response){
-          $('body').trigger('update_checkout');
-          console.log(response);
+         alert(response);
         }
 
     });   
     
   })
 
-  $('.radio-add-to-cart-ajax').click(function (e) {
-    e.preventDefault();
-    
-    $('.radio-add-to-cart-ajax').removeClass('selected');
-    $(this).addClass('selected');
-});
-
-
-
-
-
-
-
+  $('.radio-fixed-details-card').click(function (e) {
+      e.preventDefault();
+      $('.radio-fixed-details-card').removeClass('selected');
+      $(this).addClass('selected');  
   });
+
+
+
+$('.radio-add-to-cart-item-ajax').click(function(e){
+  e.preventDefault();
+
+  var loadup_add_item_id = $(this).attr('items-to-add-id');
+  var loadup_add_item_price = $(this).attr('items-to-add-price');
+
+  var card_selected_product_name =  $(this).find('.card-product-item-name').data('product');
+
+  $('#load-size-type-value').empty().append(card_selected_product_name);
+
+  $('#loadup-second-step-next-btn').prop('disabled', false);
+
+  $.ajax({
+    url: multistep_ajax_script.ajaxurl,
+    type: 'post',
+    data: {
+        'action': 'loadup_product_add_to_cart',
+        // 'shipping_cost' : shipping_cost,
+        'loadup_add_item_id': loadup_add_item_id
+
+      },
+      success: function(response){
+        $('.loadup-total-price').empty().append('<h3>'+ 'Price: '+ '$'+ response + '</h3>');
+      }
+
+  });  
+
+  
+
+  // alert(loadup_add_item_id);
+  // alert(loadup_add_item_price);
+
+  })
+
+  $("#billing-accordion-btn").click(function() {
+
+    var billing_first_name = $('#billing_first_name').val();
+    var billing_last_name = $('#billing_last_name').val();
+    var billing_email = $('#billing_email').val();
+    var billing_phone = $('#billing_phone').val();
+    var billing_address_1 = $('#billing_address_1').val();
+    var billing_address_2 = $('#billing_address_2').val();
+
+    var pickup_date = $('.loadup-billing-details').attr('loadup-pickup-date');
+    var pickup_time = $('.loadup-billing-details').attr('loadup-pickup-time');
+
+    $('.loadup-customer-billing-contact').empty();
+    $('.loadup-customer-pickup-date').empty();
+    $('.loadup-customer-pickup-address').empty();
+
+    $('.loadup-customer-billing-contact').append('<td>'+ billing_first_name + ' ' + billing_last_name+'</td>');
+    $('.loadup-customer-billing-contact').append('<td>'+ pickup_date +'</td>');
+    $('.loadup-customer-billing-contact').append('<td>'+ billing_address_1 +'</td>');
+
+
+    $('.loadup-customer-pickup-date').append('<td>'+ billing_phone +'</td>');
+    $('.loadup-customer-pickup-date').append('<td>'+ pickup_time +'</td>');
+    $('.loadup-customer-pickup-date').append('<td>'+ billing_address_2 +'</td>');
+
+
+    $('.loadup-customer-pickup-address').append('<td>'+ billing_email +'</td>');
+
+
+    // alert($(this).val()); 
+
+
+ });
+
+ $('.radio-fixed-details-card').click(function(e){
+
+    $('.radio-fixed-details-card').removeClass('radio-card-active');
+    $(this).addClass('radio-card-active');
+    $('#loadup-first-step-next-btn').prop('disabled', false);
+   var card_loadup_info_text = $(this).children('.card-loadup-info-text').data('value');
+
+
+ });
+
+
+
+ $('.cart-product-select-item').click(function(e){
+    $('.cart-product-select-item').removeClass('card-product-active');
+    $(this).addClass('card-product-active');
+ })
+
+
+  $('#loadup-first-step-next-btn').click(function(e){
+    e.preventDefault();
+    $('#second-accordion-btn-loadup').prop('disabled', false).removeClass('collapsed');
+    $('.accordion-btn-collapse-expand').addClass('collapsed');
+    $('.accordion-collapse').removeClass('show');
+    $('#second-loadup-accordion-item').addClass('show');
+  
+  });
+  
+  $('#loadup-second-step-next-btn').click(function(e){
+    e.preventDefault();
+    $('#third-accordion-btn-loadup').prop('disabled', false).removeClass('collapsed');
+    $('.accordion-btn-collapse-expand').addClass('collapsed');
+    $('.accordion-collapse').removeClass('show');
+    $('#third-loadup-accordion-item').addClass('show');
+  
+  });
+  
+  $('#loadup-third-step-next-btn').click(function(e){
+    e.preventDefault();
+    $('#fourth-accordion-btn-loadup').prop('disabled', false).removeClass('collapsed');
+    $('.accordion-btn-collapse-expand').addClass('collapsed');
+    $('.accordion-collapse').removeClass('show');
+    $('#fourth-loadup-accordion-item').addClass('show');
+  
+  }); 
+  
+  $('#loadup-fourth-step-next-btn').click(function(e){
+    e.preventDefault();
+    $('#billing-accordion-btn').prop('disabled', false).removeClass('collapsed');
+    $('.accordion-btn-collapse-expand').addClass('collapsed');
+    $('.accordion-collapse').removeClass('show');
+    $('#fifth-loadup-accordion-item').addClass('show');
+
+
+    var billing_first_name = $('#billing_first_name').val();
+    var billing_last_name = $('#billing_last_name').val();
+    var billing_email = $('#billing_email').val();
+    var billing_phone = $('#billing_phone').val();
+    var billing_address_1 = $('#billing_address_1').val();
+    var billing_address_2 = $('#billing_address_2').val();
+
+    var pickup_date = $('.loadup-billing-details').attr('loadup-pickup-date');
+    var pickup_time = $('.loadup-billing-details').attr('loadup-pickup-time');
+
+    $('.loadup-customer-billing-contact').empty();
+    $('.loadup-customer-pickup-date').empty();
+    $('.loadup-customer-pickup-address').empty();
+
+    $('.loadup-customer-billing-contact').append('<td>'+ billing_first_name + ' ' + billing_last_name+'</td>');
+    $('.loadup-customer-billing-contact').append('<td>'+ pickup_date +'</td>');
+    $('.loadup-customer-billing-contact').append('<td>'+ billing_address_1 +'</td>');
+
+
+    $('.loadup-customer-pickup-date').append('<td>'+ billing_phone +'</td>');
+    $('.loadup-customer-pickup-date').append('<td>'+ pickup_time +'</td>');
+    $('.loadup-customer-pickup-date').append('<td>'+ billing_address_2 +'</td>');
+
+
+    $('.loadup-customer-pickup-address').append('<td>'+ billing_email +'</td>');
+  
+  });
+
+  // $('.accordion-btn-collapse-expand ').click(function(e){
+  //   $('.accordion-btn-collapse-expand ').removeClass('collapsed');
+  //   $(this).addClass('collapsed');
+  // })
+
+
+  $('.accordion-btn-collapse-expand').click(function(e){
+    // $('.accordion-btn-collapse-expand').addClass('collapsed');
+    $('.accordion-btn-collapse-expand').siblings('.accordion-collapse').removeClass('show');
+  });
+
+
+ $(document).on('change', '.product-quantity-val', function(e){
+
+  var product_quantity_id = $(this).attr('product-id-val');
+  var product_quantity_value = $(this).val();
+
+  $.ajax({
+    url: multistep_ajax_script.ajaxurl,
+    type: 'post',
+    data: {
+        'action': 'add_to_cart_product_quantity_update',
+        'product_quantity_id': product_quantity_id,
+        'product_quantity_value': product_quantity_value,
+
+      },
+      success: function(response){
+        alert('ajax ' + response);
+      }
+  })
+  
+
+
+  
+
+ });
+
+
+
+
+
+});
 
  
   // jQuery(document).ready(function($) {

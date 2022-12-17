@@ -193,7 +193,8 @@ foreach ($all_products_info as $single_product) {
 
 
                                     <!-- product infos -->
-                                    <div class="row d-flex justify-content-center my-4">
+                                    <div
+                                        class="row cart-single-page-item-added-from-main d-flex justify-content-center my-4">
                                         <div class="col-md-12 card mb-4 border-0">
                                             <div class="card-header py-3 bg-dark text-white border-0">
                                                 <h5 class="mb-0 text-white">My Items</h5>
@@ -216,12 +217,13 @@ foreach ($all_products_info as $single_product) {
 
                                         </div>
 
-                                    </div>
 
-                                    <div
-                                        class="d-grid gap-2 d-md-flex justify-content-md-end accordion-next-btn-wrapper">
-                                        <button class="btn btn btn-lg btn-outline-dark me-1 mb-2"
-                                            id="first-accordion-item-next" type="button">Next</button>
+
+                                        <div
+                                            class="d-grid gap-2 d-md-flex justify-content-md-end accordion-next-btn-wrapper">
+                                            <button class="btn btn btn-lg btn-outline-dark me-1 mb-2"
+                                                id="first-accordion-item-next" type="button">Next</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
