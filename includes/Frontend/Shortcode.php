@@ -203,6 +203,7 @@ jQuery(function($) {
 
     $('form.checkout').on('click mouseout', '.product-add-to-cart-ajax', function() {
         $(document.body).trigger('update_checkout');
+
     });
 
     $('form.checkout').on('click', '.remove-single-item-btn', function() {
@@ -216,7 +217,6 @@ jQuery(function($) {
     $('form.checkout').mouseout(function() {
         $(document.body).trigger('update_checkout');
     });
-
 
 });
 </script>

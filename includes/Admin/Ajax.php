@@ -28,6 +28,9 @@ class Ajax
 
         add_action('wp_ajax_add_to_cart_product_quantity_update', [$this, 'add_to_cart_product_quantity_update']);
         add_action('wp_ajax_nopriv_add_to_cart_product_quantity_update', [$this, 'add_to_cart_product_quantity_update']);
+
+        add_action('wp_ajax_single_added_cart_modified', [$this, 'single_added_cart_modified']);
+        add_action('wp_ajax_nopriv_single_added_cart_modified', [$this, 'single_added_cart_modified']);
     }
 
     public function get_products_info()
@@ -41,6 +44,7 @@ class Ajax
         WC()->cart->add_to_cart($product_id, 1);
 
         $total = WC()->cart->total;
+        WC()->session->set('total_price_with-fees', $total);
 
         // print_r(WC()->cart->get_cart_contents_count());
 
@@ -139,6 +143,7 @@ class Ajax
         }
 
         $total = WC()->cart->total;
+        WC()->session->set('total_price_with-fees', $total);
 
         if (in_array($removed_product_id, $latest_products_arr)) {?>
 
@@ -231,11 +236,11 @@ do_action('woocommerce_review_order_before_cart_contents');
             class="<?php echo esc_attr(apply_filters('woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key)); ?>">
             <td class="product-name">
                 <?php echo wp_kses_post(apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key)) . '&nbsp;'; ?>
-                <?php echo apply_filters('woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf('&times;&nbsp;%s', $cart_item['quantity']) . '</strong>', $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                                                                                  ?>
-                <?php echo wc_get_formatted_cart_item_data($cart_item); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                                                                                  ?>
+                <?php echo apply_filters('woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf('&times;&nbsp;%s', $cart_item['quantity']) . '</strong>', $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                                                                                                                   ?>
+                <?php echo wc_get_formatted_cart_item_data($cart_item); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                                                                                                                   ?>
             </td>
             <td class="product-total">
-                <?php echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                                                                                  ?>
+                <?php echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                                                                                                                   ?>
             </td>
         </tr>
         <?php
@@ -317,6 +322,7 @@ do_action('woocommerce_review_order_before_cart_contents');
         WC()->cart->add_to_cart($product_id, 1);
 
         $total = WC()->cart->total;
+        WC()->session->set('total_price_with-fees', $total);
         // print_r(WC()->cart->get_cart_contents_count());
 
         ?>
@@ -395,6 +401,11 @@ do_action('woocommerce_review_order_before_cart_contents');
     {
         $shipping_cost = $_POST['shipping_cost'];
         WC()->session->set('selected_shipping_cost', $shipping_cost);
+
+        $total = intval(WC()->cart->total);
+
+        echo '$' . $total;
+
         wp_die();
     }
 
@@ -421,6 +432,23 @@ do_action('woocommerce_review_order_before_cart_contents');
         }
 
         WC()->cart->add_to_cart($product_quantity_id, $product_quantity_value);
+
+        $subtotal = intval(WC()->cart->subtotal);
+
+        $selected_shipping_cost = intval(WC()->session->get('selected_shipping_cost'));
+
+        echo '$' . ($subtotal + $selected_shipping_cost);
+        wp_die();
+
+    }
+
+    public function single_added_cart_modified()
+    {
+        $subtotal = intval(WC()->cart->subtotal);
+
+        $selected_shipping_cost = intval(WC()->session->get('selected_shipping_cost'));
+
+        echo '$' . ($subtotal + $selected_shipping_cost);
 
         wp_die();
 

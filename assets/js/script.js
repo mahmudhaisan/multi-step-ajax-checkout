@@ -44,6 +44,8 @@ jQuery(document).ready(function($) {
     $(this).remove();
     $('.no-products-text').addClass('d-none');
 
+    
+
     // ajax on adding single product page
     $.ajax({
       url: multistep_ajax_script.ajaxurl,
@@ -55,25 +57,27 @@ jQuery(document).ready(function($) {
         },
         success: function(response){
 
-          $('.total-cart-price-count').remove();
-          // console.log(JSON.parse(response));
+          
 
-          // console.log(response.find('.response'));
+          // $('.total-cart-price-count').remove();
+          // // console.log(JSON.parse(response));
 
-          var total_price = 0;
+          // // console.log(response.find('.response'));
+
+          // var total_price = 0;
          
           $('.single-product-added-to-cart').append(response);
-          $('.product_price_hidden').each(function(){
+          // $('.product_price_hidden').each(function(){
 
-            total_price += parseInt($(this).val());
-          });
+          //   total_price += parseInt($(this).val());
+          // });
 
-          // var cart_total_price = $(this).attr('cart-item-total-price');
+          // // var cart_total_price = $(this).attr('cart-item-total-price');
 
-          $('.product_total_price').empty().append(currency_symbol + total_price);
+          // $('.product_total_price').empty().append(currency_symbol + total_price);
 
-          var product_price = $('.single-product-added-to-cart > div:last').attr('cart-total-amount');
-          $('.total-price-of-cart-items').empty().append(currency_symbol + product_price);
+          // var product_price = $('.single-product-added-to-cart > div:last').attr('cart-total-amount');
+          // $('.total-price-of-cart-items').empty().append(currency_symbol + product_price);
           
           
           // alert(product_price );
@@ -131,21 +135,21 @@ jQuery(document).ready(function($) {
 
           // console.log(response.find('.response'));
 
-          var total_price = 0;
+          // var total_price = 0;
          
           $('.single-product-added-to-cart').append(response);
           
-          $('.product_price_hidden').each(function(){
+          // $('.product_price_hidden').each(function(){
 
-            total_price += parseInt($(this).val());
-          });
+          //   total_price += parseInt($(this).val());
+          // });
 
-          // var cart_total_price = $(this).attr('cart-item-total-price');
+          // // var cart_total_price = $(this).attr('cart-item-total-price');
 
-          $('.product_total_price').empty().append( currency_symbol + total_price);
+          // $('.product_total_price').empty().append( currency_symbol + total_price);
 
-          var product_price = $('.single-product-added-to-cart > div:last').attr('cart-total-amount');
-          $('.total-price-of-cart-items').empty().append(currency_symbol + total_price);
+          // var product_price = $('.single-product-added-to-cart > div:last').attr('cart-total-amount');
+          // $('.total-price-of-cart-items').empty().append(currency_symbol + total_price);
           
           
           // // alert(product_price );
@@ -213,10 +217,10 @@ jQuery(document).ready(function($) {
 
           // console.log(response);
 
-          $('.product_total_price').empty().append(currency_symbol + total_price);
+          // $('.product_total_price').empty().append(currency_symbol + total_price);
 
-          var product_price = $('.single-product-added-to-cart > div:last').attr('cart-total-amount');
-          $('.total-price-of-cart-items').empty().append(currency_symbol + total_price);
+          // var product_price = $('.single-product-added-to-cart > div:last').attr('cart-total-amount');
+          // $('.total-price-of-cart-items').empty().append(currency_symbol + total_price);
 
           // alert(product_price);
 
@@ -272,22 +276,26 @@ jQuery(document).ready(function($) {
   //   $('#fifth-accordion-btn').prop('disabled', false);
   // })
 
-
-
-  $(document).on('click', '.shipping-pick-up-card-1', function(e){
-    $('.shipping-pick-up-card-2').removeClass('bg-dark text-white');
+  $('.shipping-pick-up-cards').click(function(){
+    $('.shipping-pick-up-cards').removeClass('bg-dark text-white');
     $(this).addClass('bg-dark text-white');
-  
-
   })
 
-  $(document).on('click', '.shipping-pick-up-card-2', function(e){
 
-    $('.shipping-pick-up-card-1').removeClass('bg-dark text-white');
-    $(this).addClass('bg-dark text-white');
+  // $(document).on('click', '.shipping-pick-up-card-1', function(e){
+  //   $('.shipping-pick-up-card-2').removeClass('bg-dark text-white');
+  //   $(this).addClass('bg-dark text-white');
   
 
-  })
+  // })
+
+  // $(document).on('click', '.shipping-pick-up-card-2', function(e){
+
+  //   $('.shipping-pick-up-card-1').removeClass('bg-dark text-white');
+  //   $(this).addClass('bg-dark text-white');
+  
+
+  // })
 
   $("#datepicker-input").on("change",function(){
     var selected = $(this).val();
@@ -316,7 +324,8 @@ jQuery(document).ready(function($) {
 
         },
         success: function(response){
-         alert(response);
+        //  alert(response);
+        $('.single-product-added-to-cart').append(response);
         }
 
     });   
@@ -507,7 +516,7 @@ $('.radio-add-to-cart-item-ajax').click(function(e){
 
       },
       success: function(response){
-        alert('ajax ' + response);
+        $('.product_total_price').empty().append(response);
       }
   })
   
@@ -519,7 +528,21 @@ $('.radio-add-to-cart-item-ajax').click(function(e){
 
 
 
+ $('.single-product-added-to-cart').on('DOMSubtreeModified', function(){
+  
+  $.ajax({
+    url: multistep_ajax_script.ajaxurl,
+    type: 'post',
+    data: {
+        'action': 'single_added_cart_modified',
+        
 
+      },
+      success: function(response){
+        $('.product_total_price').empty().append(response);
+      }
+  })
+});
 
 });
 

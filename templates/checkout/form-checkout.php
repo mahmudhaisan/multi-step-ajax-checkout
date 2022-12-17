@@ -53,13 +53,13 @@ echo $post->ID;
 
 <div class="container">
 
+    <form name="checkout" method="post" class="checkout woocommerce-checkout"
+        action="<?php echo esc_url(wc_get_checkout_url()); ?>" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-8">
 
-    <div class="row">
-        <div class="col-md-8">
+                <!-- Accordion Start -->
 
-            <!-- Accordion Start -->
-            <form name="checkout" method="post" class="checkout woocommerce-checkout"
-                action="<?php echo esc_url(wc_get_checkout_url()); ?>" enctype="multipart/form-data">
                 <div class="accordion" id="accordionExamples">
 
                     <!-- 1st accordion item -->
@@ -490,33 +490,38 @@ foreach ($all_products_info as $single_product) {
 
 
                 </div>
-            </form>
-
-        </div>
 
 
+            </div>
+
+            <?php
+
+?>
 
 
-        <div class="col-md-4 guranteed-price-col">
-            <div class="row accordion-item p-4">
-                <div class="order-summary-col">
-                    <h3 class="text-center">Order Details</h3>
-                    <div class="row price-row mt-2">
-                        <h4 class="mb-0 p-3">Guranteed Price:
 
-                            <span class="product_total_price"></span>
+            <div class="col-md-4 guranteed-price-col">
+                <div class="row accordion-item p-4">
+                    <div class="order-summary-col">
+
+                        <h3 class="text-center">Order Details</h3>
+                        <div class="row price-row mt-2">
+                            <h4 class="mb-0 p-3">Guranteed Price:
+
+                                <span class="product_total_price"></span>
 
 
-                        </h4>
+                            </h4>
+
+                        </div>
 
                     </div>
-
                 </div>
             </div>
+
+
         </div>
-
-
-    </div>
+    </form>
 </div>
 
 
