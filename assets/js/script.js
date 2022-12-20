@@ -25,9 +25,13 @@ jQuery(document).ready(function($) {
         $("#list-group-for-search").removeClass('d-none');
      }); 
 
-    //  $("#search-query").focusout(function(){
+    //  $("#search-query").blur(function(e){
+       
     //     $("#list-group-for-search").addClass('d-none');
     //  });
+
+
+
 
 
 
@@ -90,6 +94,7 @@ jQuery(document).ready(function($) {
             $('.shopping_cart_products_body').prepend('<tr class="product_in_cart_info_name_price"><td>'+ cart_product_name +' </td> <td> '+ currency_symbol +  cart_product_price +'</td></tr>');
             
           });
+          
           
 
           
@@ -276,26 +281,8 @@ jQuery(document).ready(function($) {
   //   $('#fifth-accordion-btn').prop('disabled', false);
   // })
 
-  $('.shipping-pick-up-cards').click(function(){
-    $('.shipping-pick-up-cards').removeClass('bg-dark text-white');
-    $(this).addClass('bg-dark text-white');
-  })
 
 
-  // $(document).on('click', '.shipping-pick-up-card-1', function(e){
-  //   $('.shipping-pick-up-card-2').removeClass('bg-dark text-white');
-  //   $(this).addClass('bg-dark text-white');
-  
-
-  // })
-
-  // $(document).on('click', '.shipping-pick-up-card-2', function(e){
-
-  //   $('.shipping-pick-up-card-1').removeClass('bg-dark text-white');
-  //   $(this).addClass('bg-dark text-white');
-  
-
-  // })
 
   $("#datepicker-input").on("change",function(){
     var selected = $(this).val();
@@ -311,7 +298,10 @@ jQuery(document).ready(function($) {
 
 
   $('.shipping-pick-up-cards').click(function(e){
-      var shipping_cost =  $(this).attr('shipping-cost');
+    $('.shipping-pick-up-cards').removeClass('shipping-select-class');
+    $(this).addClass('shipping-select-class');
+
+    var shipping_cost =  $(this).attr('shipping-cost');
       // alert(shipping_cost);
 
        // ajax on adding single product page
@@ -324,182 +314,16 @@ jQuery(document).ready(function($) {
 
         },
         success: function(response){
+          $(document.body).trigger('update_checkout');
         //  alert(response);
-        $('.single-product-added-to-cart').append(response);
+        $('.product_total_price').empty().append(response);
         }
 
     });   
     
   })
 
-  $('.radio-fixed-details-card').click(function (e) {
-      e.preventDefault();
-      $('.radio-fixed-details-card').removeClass('selected');
-      $(this).addClass('selected');  
-  });
-
-
-
-$('.radio-add-to-cart-item-ajax').click(function(e){
-  e.preventDefault();
-
-  var loadup_add_item_id = $(this).attr('items-to-add-id');
-  var loadup_add_item_price = $(this).attr('items-to-add-price');
-
-  var card_selected_product_name =  $(this).find('.card-product-item-name').data('product');
-
-  $('#load-size-type-value').empty().append(card_selected_product_name);
-
-  $('#loadup-second-step-next-btn').prop('disabled', false);
-
-  $.ajax({
-    url: multistep_ajax_script.ajaxurl,
-    type: 'post',
-    data: {
-        'action': 'loadup_product_add_to_cart',
-        // 'shipping_cost' : shipping_cost,
-        'loadup_add_item_id': loadup_add_item_id
-
-      },
-      success: function(response){
-        $('.loadup-total-price').empty().append('<h3>'+ 'Price: '+ '$'+ response + '</h3>');
-      }
-
-  });  
-
-  
-
-  // alert(loadup_add_item_id);
-  // alert(loadup_add_item_price);
-
-  })
-
-  $("#billing-accordion-btn").click(function() {
-
-    var billing_first_name = $('#billing_first_name').val();
-    var billing_last_name = $('#billing_last_name').val();
-    var billing_email = $('#billing_email').val();
-    var billing_phone = $('#billing_phone').val();
-    var billing_address_1 = $('#billing_address_1').val();
-    var billing_address_2 = $('#billing_address_2').val();
-
-    var pickup_date = $('.loadup-billing-details').attr('loadup-pickup-date');
-    var pickup_time = $('.loadup-billing-details').attr('loadup-pickup-time');
-
-    $('.loadup-customer-billing-contact').empty();
-    $('.loadup-customer-pickup-date').empty();
-    $('.loadup-customer-pickup-address').empty();
-
-    $('.loadup-customer-billing-contact').append('<td>'+ billing_first_name + ' ' + billing_last_name+'</td>');
-    $('.loadup-customer-billing-contact').append('<td>'+ pickup_date +'</td>');
-    $('.loadup-customer-billing-contact').append('<td>'+ billing_address_1 +'</td>');
-
-
-    $('.loadup-customer-pickup-date').append('<td>'+ billing_phone +'</td>');
-    $('.loadup-customer-pickup-date').append('<td>'+ pickup_time +'</td>');
-    $('.loadup-customer-pickup-date').append('<td>'+ billing_address_2 +'</td>');
-
-
-    $('.loadup-customer-pickup-address').append('<td>'+ billing_email +'</td>');
-
-
-    // alert($(this).val()); 
-
-
- });
-
- $('.radio-fixed-details-card').click(function(e){
-
-    $('.radio-fixed-details-card').removeClass('radio-card-active');
-    $(this).addClass('radio-card-active');
-    $('#loadup-first-step-next-btn').prop('disabled', false);
-   var card_loadup_info_text = $(this).children('.card-loadup-info-text').data('value');
-
-
- });
-
-
-
- $('.cart-product-select-item').click(function(e){
-    $('.cart-product-select-item').removeClass('card-product-active');
-    $(this).addClass('card-product-active');
- })
-
-
-  $('#loadup-first-step-next-btn').click(function(e){
-    e.preventDefault();
-    $('#second-accordion-btn-loadup').prop('disabled', false).removeClass('collapsed');
-    $('.accordion-btn-collapse-expand').addClass('collapsed');
-    $('.accordion-collapse').removeClass('show');
-    $('#second-loadup-accordion-item').addClass('show');
-  
-  });
-  
-  $('#loadup-second-step-next-btn').click(function(e){
-    e.preventDefault();
-    $('#third-accordion-btn-loadup').prop('disabled', false).removeClass('collapsed');
-    $('.accordion-btn-collapse-expand').addClass('collapsed');
-    $('.accordion-collapse').removeClass('show');
-    $('#third-loadup-accordion-item').addClass('show');
-  
-  });
-  
-  $('#loadup-third-step-next-btn').click(function(e){
-    e.preventDefault();
-    $('#fourth-accordion-btn-loadup').prop('disabled', false).removeClass('collapsed');
-    $('.accordion-btn-collapse-expand').addClass('collapsed');
-    $('.accordion-collapse').removeClass('show');
-    $('#fourth-loadup-accordion-item').addClass('show');
-  
-  }); 
-  
-  $('#loadup-fourth-step-next-btn').click(function(e){
-    e.preventDefault();
-    $('#billing-accordion-btn').prop('disabled', false).removeClass('collapsed');
-    $('.accordion-btn-collapse-expand').addClass('collapsed');
-    $('.accordion-collapse').removeClass('show');
-    $('#fifth-loadup-accordion-item').addClass('show');
-
-
-    var billing_first_name = $('#billing_first_name').val();
-    var billing_last_name = $('#billing_last_name').val();
-    var billing_email = $('#billing_email').val();
-    var billing_phone = $('#billing_phone').val();
-    var billing_address_1 = $('#billing_address_1').val();
-    var billing_address_2 = $('#billing_address_2').val();
-
-    var pickup_date = $('.loadup-billing-details').attr('loadup-pickup-date');
-    var pickup_time = $('.loadup-billing-details').attr('loadup-pickup-time');
-
-    $('.loadup-customer-billing-contact').empty();
-    $('.loadup-customer-pickup-date').empty();
-    $('.loadup-customer-pickup-address').empty();
-
-    $('.loadup-customer-billing-contact').append('<td>'+ billing_first_name + ' ' + billing_last_name+'</td>');
-    $('.loadup-customer-billing-contact').append('<td>'+ pickup_date +'</td>');
-    $('.loadup-customer-billing-contact').append('<td>'+ billing_address_1 +'</td>');
-
-
-    $('.loadup-customer-pickup-date').append('<td>'+ billing_phone +'</td>');
-    $('.loadup-customer-pickup-date').append('<td>'+ pickup_time +'</td>');
-    $('.loadup-customer-pickup-date').append('<td>'+ billing_address_2 +'</td>');
-
-
-    $('.loadup-customer-pickup-address').append('<td>'+ billing_email +'</td>');
-  
-  });
-
-  // $('.accordion-btn-collapse-expand ').click(function(e){
-  //   $('.accordion-btn-collapse-expand ').removeClass('collapsed');
-  //   $(this).addClass('collapsed');
-  // })
-
-
-  $('.accordion-btn-collapse-expand').click(function(e){
-    // $('.accordion-btn-collapse-expand').addClass('collapsed');
-    $('.accordion-btn-collapse-expand').siblings('.accordion-collapse').removeClass('show');
-  });
-
+ 
 
  $(document).on('change', '.product-quantity-val', function(e){
 
@@ -516,12 +340,12 @@ $('.radio-add-to-cart-item-ajax').click(function(e){
 
       },
       success: function(response){
+        
         $('.product_total_price').empty().append(response);
+        $(document.body).trigger('update_checkout');
+      
       }
   })
-  
-
-
   
 
  });
@@ -540,9 +364,295 @@ $('.radio-add-to-cart-item-ajax').click(function(e){
       },
       success: function(response){
         $('.product_total_price').empty().append(response);
+        // $(document.body).trigger('update_checkout');
       }
   })
 });
+
+
+$('.cart-single-page-item-added-from-main').on('DOMSubtreeModified', function(e){
+  
+ var single_product_exists_cart =  $('.product-added-single-page').length;
+
+  if(single_product_exists_cart < 1){
+    $('#first-accordion-item-next').prop('disabled', true);
+  }else{
+    
+    $('#first-accordion-item-next').prop('disabled', false);
+  }
+    console.log(single_product_exists_cart);
+  
+})
+
+
+$('.loadup-billing-fields .validate-required input').keyup(function() {
+
+  var empty = false;
+  $('.loadup-billing-fields .validate-required input').each(function() {
+      if ($(this).val().length == 0) {
+          empty = true;
+      }
+  });
+
+  if (empty) {
+    $('#loadup-fourth-step-next-btn').prop('disabled', true);
+  } else {
+    $('#loadup-fourth-step-next-btn').prop('disabled', false);
+  }
+});
+
+
+
+
+$('.checkout-woo-process-options .validate-required input').keyup(function() {
+
+  var empty = false;
+  $('.checkout-woo-process-options .validate-required input').each(function() {
+      if ($(this).val().length == 0) {
+          empty = true;
+      }
+  });
+
+  if (empty) {
+    $('#fourth-accordion-item-next').prop('disabled', true);
+  } else {
+    $('#fourth-accordion-item-next').prop('disabled', false);
+  }
+});
+
+
+
+$('.input-field-date-time').change(function() {
+
+  var empty = false;
+  $('.input-field-date-time').each(function() {
+      if ($(this).val().length == 0) {
+          empty = true;
+      }
+  });
+
+  if (empty) {
+    $('#second-accordion-item-next').prop('disabled', true);
+  } else {
+    $('#second-accordion-item-next').prop('disabled', false);
+  }
+
+ 
+  
+});
+
+
+
+
+
+$('#first-accordion-item-next').click(function(e){
+    e.preventDefault();
+    $('#second-accordion-btn').prop('disabled', false).removeClass('collapsed');
+    $('.accordion-btn-collapse-expand').addClass('collapsed');
+    $('.accordion-collapse').removeClass('show');
+    $('#second-accordion-item').addClass('show');                        
+
+});
+
+$('#second-accordion-item-next').click(function(e){
+    e.preventDefault();
+    $('#third-accordion-btn').prop('disabled', false).removeClass('collapsed');
+    $('.accordion-btn-collapse-expand').addClass('collapsed');
+    $('.accordion-collapse').removeClass('show');
+    $('#third-accordion-item').addClass('show');
+
+});
+
+$('#third-accordion-item-next').click(function(e){
+    e.preventDefault();
+    $('#fourth-accordion-btn').prop('disabled', false).removeClass('collapsed');
+    $('.accordion-btn-collapse-expand').addClass('collapsed');
+    $('.accordion-collapse').removeClass('show');
+    $('#collapseOnes').addClass('show');
+
+}); 
+
+
+$('#fourth-accordion-item-next').click(function(e){
+    e.preventDefault();
+    $('#fifth-accordion-btn').prop('disabled', false).removeClass('collapsed');
+    $('.accordion-btn-collapse-expand').addClass('collapsed');
+    $('.accordion-collapse').removeClass('show');
+    $('#collapseTwo').addClass('show');
+
+}); 
+
+
+
+//loadup form
+$('.radio-fixed-details-card').click(function (e) {
+  e.preventDefault();
+  $('.radio-fixed-details-card').removeClass('selected');
+  $(this).addClass('selected');  
+});
+
+
+
+$('.radio-add-to-cart-item-ajax').click(function(e){
+e.preventDefault();
+
+var loadup_add_item_id = $(this).attr('items-to-add-id');
+var loadup_add_item_price = $(this).attr('items-to-add-price');
+
+var card_selected_product_name =  $(this).find('.card-product-item-name').data('product');
+
+$('#load-size-type-value').empty().append(card_selected_product_name);
+
+$('#loadup-second-step-next-btn').prop('disabled', false);
+
+$.ajax({
+url: multistep_ajax_script.ajaxurl,
+type: 'post',
+data: {
+    'action': 'loadup_product_add_to_cart',
+    // 'shipping_cost' : shipping_cost,
+    'loadup_add_item_id': loadup_add_item_id
+
+  },
+  success: function(response){
+    $('.loadup-total-price').empty().append('<h3>'+ 'Price: '+ '$'+ response + '</h3>');
+  }
+
+});  
+
+
+
+// alert(loadup_add_item_id);
+// alert(loadup_add_item_price);
+
+})
+
+$("#billing-accordion-btn").click(function() {
+
+var billing_first_name = $('#billing_first_name').val();
+var billing_last_name = $('#billing_last_name').val();
+var billing_email = $('#billing_email').val();
+var billing_phone = $('#billing_phone').val();
+var billing_address_1 = $('#billing_address_1').val();
+var billing_address_2 = $('#billing_address_2').val();
+
+var pickup_date = $('.loadup-billing-details').attr('loadup-pickup-date');
+var pickup_time = $('.loadup-billing-details').attr('loadup-pickup-time');
+
+$('.loadup-customer-billing-contact').empty();
+$('.loadup-customer-pickup-date').empty();
+$('.loadup-customer-pickup-address').empty();
+
+$('.loadup-customer-billing-contact').append('<td>'+ billing_first_name + ' ' + billing_last_name+'</td>');
+$('.loadup-customer-billing-contact').append('<td>'+ pickup_date +'</td>');
+$('.loadup-customer-billing-contact').append('<td>'+ billing_address_1 +'</td>');
+
+
+$('.loadup-customer-pickup-date').append('<td>'+ billing_phone +'</td>');
+$('.loadup-customer-pickup-date').append('<td>'+ pickup_time +'</td>');
+$('.loadup-customer-pickup-date').append('<td>'+ billing_address_2 +'</td>');
+
+
+$('.loadup-customer-pickup-address').append('<td>'+ billing_email +'</td>');
+
+
+// alert($(this).val()); 
+
+
+});
+
+$('.radio-fixed-details-card').click(function(e){
+
+  $('.radio-fixed-details-card').removeClass('radio-card-active');
+  $(this).addClass('radio-card-active');
+  $('#loadup-first-step-next-btn').prop('disabled', false);
+  var card_loadup_info_text = $(this).children('.card-loadup-info-text').data('value');
+
+
+});
+
+
+
+$('.cart-product-select-item').click(function(e){
+  $('.cart-product-select-item').removeClass('card-product-active');
+  $(this).addClass('card-product-active');
+})
+
+
+$('#loadup-first-step-next-btn').click(function(e){
+    e.preventDefault();
+    $('#second-accordion-btn-loadup').prop('disabled', false).removeClass('collapsed');
+    $('.accordion-btn-collapse-expand').addClass('collapsed');
+    $('.accordion-collapse').removeClass('show');
+    $('#second-loadup-accordion-item').addClass('show');                        
+
+});
+
+$('#loadup-second-step-next-btn').click(function(e){
+  e.preventDefault();
+  $('#third-accordion-btn-loadup').prop('disabled', false).removeClass('collapsed');
+  $('.accordion-btn-collapse-expand').addClass('collapsed');
+  $('.accordion-collapse').removeClass('show');
+  $('#third-loadup-accordion-item').addClass('show');
+
+});
+
+$('#loadup-third-step-next-btn').click(function(e){
+  e.preventDefault();
+  $('#fourth-accordion-btn-loadup').prop('disabled', false).removeClass('collapsed');
+  $('.accordion-btn-collapse-expand').addClass('collapsed');
+  $('.accordion-collapse').removeClass('show');
+  $('#fourth-loadup-accordion-item').addClass('show');
+
+}); 
+
+$('#loadup-fourth-step-next-btn').click(function(e){
+  e.preventDefault();
+  $('#billing-accordion-btn').prop('disabled', false).removeClass('collapsed');
+  $('.accordion-btn-collapse-expand').addClass('collapsed');
+  $('.accordion-collapse').removeClass('show');
+  $('#fifth-loadup-accordion-item').addClass('show');
+
+
+  var billing_first_name = $('#billing_first_name').val();
+  var billing_last_name = $('#billing_last_name').val();
+  var billing_email = $('#billing_email').val();
+  var billing_phone = $('#billing_phone').val();
+  var billing_address_1 = $('#billing_address_1').val();
+  var billing_address_2 = $('#billing_address_2').val();
+
+  var pickup_date = $('.loadup-billing-details').attr('loadup-pickup-date');
+  var pickup_time = $('.loadup-billing-details').attr('loadup-pickup-time');
+
+  $('.loadup-customer-billing-contact').empty();
+  $('.loadup-customer-pickup-date').empty();
+  $('.loadup-customer-pickup-address').empty();
+
+  $('.loadup-customer-billing-contact').append('<td>'+ billing_first_name + ' ' + billing_last_name+'</td>');
+  $('.loadup-customer-billing-contact').append('<td>'+ pickup_date +'</td>');
+  $('.loadup-customer-billing-contact').append('<td>'+ billing_address_1 +'</td>');
+
+
+  $('.loadup-customer-pickup-date').append('<td>'+ billing_phone +'</td>');
+  $('.loadup-customer-pickup-date').append('<td>'+ pickup_time +'</td>');
+  $('.loadup-customer-pickup-date').append('<td>'+ billing_address_2 +'</td>');
+
+
+  $('.loadup-customer-pickup-address').append('<td>'+ billing_email +'</td>');
+
+});
+
+// $('.accordion-btn-collapse-expand ').click(function(e){
+//   $('.accordion-btn-collapse-expand ').removeClass('collapsed');
+//   $(this).addClass('collapsed');
+// })
+
+
+$('.accordion-btn-collapse-expand').click(function(e){
+// $('.accordion-btn-collapse-expand').addClass('collapsed');
+  $('.accordion-btn-collapse-expand').siblings('.accordion-collapse').removeClass('show');
+});
+
 
 });
 

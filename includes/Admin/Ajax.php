@@ -53,28 +53,24 @@ class Ajax
 <input type="hidden" class="total-cart-price-count" data-price="<?php echo $total; ?>">
 
 <!-- Single item -->
-<div class="product-added-single-page" cart-product-name="<?php echo $product_name; ?>"
-    cart-product-price="<?php echo $product_price; ?>" product-id-to-remove="<?php echo $product_id; ?>"
-    cart-total-amount="<?php echo $total; ?>">
+<div class="product-added-single-page d-flex justify-content-center mt-2 mb-2"
+    cart-product-name="<?php echo $product_name; ?>" cart-product-price="<?php echo $product_price; ?>"
+    product-id-to-remove="<?php echo $product_id; ?>" cart-total-amount="<?php echo $total; ?>">
     <div class="row product-row mb-3 border-bottom-1">
-        <div class="col-md-3">
+        <div class="col-md-2 col-sm-3 col-3">
 
 
 
             <!-- Image -->
             <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                <img src="<?php echo $product_image_by_id; ?>" class="w-100" alt="Blue Jeans Jacket" />
-                <a href="#!">
-                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)">
-                    </div>
-                </a>
+                <img src="<?php echo $product_image_by_id; ?>" class="cart-product-image" alt="Blue Jeans Jacket" />
             </div>
             <!-- Image -->
         </div>
 
-        <div class="col-md-7">
+        <div class="col-md-8 col-sm-6 col-6">
             <!-- Data -->
-            <p><strong><?php echo $product_name; ?></strong>
+            <p class="h2 p-2 text-center"><?php echo $product_name; ?>
             </p>
             <!-- Data -->
         </div>
@@ -82,7 +78,7 @@ class Ajax
 
 
         <!-- quantity -->
-        <div class="col-md-2">
+        <div class="col-md-2 col-sm-3 col-3">
             <!-- Quantity -->
             <div class="d-flex mb-4" style="max-width: 300px">
 
@@ -150,18 +146,19 @@ class Ajax
 <input type="hidden" class="total-cart-price-count" data-price="<?php echo $total; ?>">
 
 
-<div class="col-md-3 col-sm-4 product-add-to-cart-ajax" items-to-add-name="<?php echo $product_name; ?>"
+<div class="col-md-3 col-sm-4  col-6 product-add-to-cart-ajax" items-to-add-name="<?php echo $product_name; ?>"
     items-to-add-id="<?php echo $removed_product_id; ?>" items-to-add-price="<?php echo $product_price; ?>"
     cart-item-total-price="<?php echo $total; ?>">
     <div class="wrimagecard wrimagecard-topimage">
         <a href="">
-            <div class="wrimagecard-topimage_header" style="background-color:rgba(187, 120, 36, 0.1) ">
-                <img src="<?php echo $product_image_by_id; ?>" alt="">
+            <div class="wrimagecard-topimage_header">
+                <img src="<?php echo $product_image_by_id; ?>" alt="" class="mx-auto d-block">
             </div>
-            <div class="wrimagecard-topimage_title">
-                <h6> <?php echo $product_name; ?>
-                    <div class="pull-right badge">18</div>
-                </h6>
+            <div class="text-dark p-2 text-center">
+                <p class="h2 product-heading-text">
+                    <?php echo $product_name; ?>
+
+                </p>
             </div>
         </a>
     </div>
@@ -236,11 +233,11 @@ do_action('woocommerce_review_order_before_cart_contents');
             class="<?php echo esc_attr(apply_filters('woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key)); ?>">
             <td class="product-name">
                 <?php echo wp_kses_post(apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key)) . '&nbsp;'; ?>
-                <?php echo apply_filters('woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf('&times;&nbsp;%s', $cart_item['quantity']) . '</strong>', $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                                                                                                                   ?>
-                <?php echo wc_get_formatted_cart_item_data($cart_item); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                                                                                                                   ?>
+                <?php echo apply_filters('woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf('&times;&nbsp;%s', $cart_item['quantity']) . '</strong>', $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                                                                                                                                                        ?>
+                <?php echo wc_get_formatted_cart_item_data($cart_item); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                                                                                                                                                        ?>
             </td>
             <td class="product-total">
-                <?php echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                                                                                                                   ?>
+                <?php echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped                                                                                                                                                                                                                                                                                                                                                                                                        ?>
             </td>
         </tr>
         <?php
@@ -334,26 +331,23 @@ do_action('woocommerce_review_order_before_cart_contents');
     cart-product-price="<?php echo $product_price; ?>" product-id-to-remove="<?php echo $product_id; ?>"
     cart-total-amount="<?php echo $total; ?>">
     <div class="row product-row mb-3">
-        <div class="col-md-3">
+        <div class="col-md-2 col-sm-3">
 
 
 
             <!-- Image -->
             <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                <img src="<?php echo $product_image_by_id; ?>" class="w-100" alt="Blue Jeans Jacket" />
-                <a href="#!">
-                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)">
-                    </div>
-                </a>
+                <img src="<?php echo $product_image_by_id; ?>" class="cart-product-image" alt="Blue Jeans Jacket" />
+
             </div>
             <!-- Image -->
         </div>
 
 
 
-        <div class="col-md-7">
+        <div class="col-md-8 col-sm-6">
             <!-- Data -->
-            <p><strong><?php echo $product_name; ?></strong>
+            <p class="h2 p-2 text-center"><?php echo $product_name; ?>
             </p>
             <!-- Data -->
         </div>
@@ -361,7 +355,7 @@ do_action('woocommerce_review_order_before_cart_contents');
 
 
         <!-- quantity -->
-        <div class="col-md-2">
+        <div class="col-md-2 col-sm-3">
             <!-- Quantity -->
             <div class="d-flex mb-4" style="max-width: 300px">
 
@@ -373,7 +367,7 @@ do_action('woocommerce_review_order_before_cart_contents');
                 <div class="form-outline product-quantity-single">
                     <input type="hidden" class="product_price_hidden" value="<?php echo $product_price; ?>">
                     <input name="cart_quantity_number" min="1" max="<?php echo 'product_stock_quantity'; ?>"
-                        value="<?php echo $quan_num; ?>" type="number"
+                        value="<?php echo $quan_num; ?>" type="number" product-id-val="<?php echo $product_id ?>"
                         class="form-control itemQty product-quantity-val" />
 
                 </div>
@@ -402,9 +396,9 @@ do_action('woocommerce_review_order_before_cart_contents');
         $shipping_cost = $_POST['shipping_cost'];
         WC()->session->set('selected_shipping_cost', $shipping_cost);
 
-        $total = intval(WC()->cart->total);
+        $total = intval(WC()->cart->subtotal);
 
-        echo '$' . $total;
+        echo '$' . ($total + intval($shipping_cost));
 
         wp_die();
     }

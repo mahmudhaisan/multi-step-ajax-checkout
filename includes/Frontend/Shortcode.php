@@ -43,6 +43,7 @@ class Shortcode
         // Ajax update on gateway change
         add_action('wp_footer', [$this, 'woo_checkout_ajax_trigger']);
         add_action('woocommerce_cart_calculate_fees', [$this, 'woocommerce_cart_selected_shipping_fees']);
+        add_action('woocommerce_checkout_create_order', [$this, 'custom_checkout_field_update_order_meta'], 20, 2);
 
     }
 
@@ -74,8 +75,16 @@ class Shortcode
 
     public function second_place_order_button()
     {
-        $order_button_text = apply_filters('woocommerce_order_button_text', __("Place order", "woocommerce"));
-        echo '<button type="submit" class="button alt" name="woocommerce_checkout_place_order" id="place_order" value="' . esc_attr($order_button_text) . '" data-value="' . esc_attr($order_button_text) . '">' . esc_html($order_button_text) . '</button>';
+        global $post;
+        echo $post->ID;
+        if ($post->ID == 80) {
+
+            $order_button_text = apply_filters('woocommerce_order_button_text', __("Renew Subscription", "woocommerce"));
+        } else {
+            $order_button_text = apply_filters('woocommerce_order_button_text', __("Order Now", "woocommerce"));
+
+        }
+        echo '<button type="submit" class="button alt place_order_btn_woo" name="woocommerce_checkout_place_order" id="place_order" value="' . esc_attr($order_button_text) . '" data-value="' . esc_attr($order_button_text) . '">' . esc_html($order_button_text) . '</button>';
     }
 
     public function checkout_page_templates_override_woo($template, $template_name, $template_path)
@@ -201,22 +210,30 @@ class Shortcode
 <script>
 jQuery(function($) {
 
-    $('form.checkout').on('click mouseout', '.product-add-to-cart-ajax', function() {
+    $('.single-product-added-to-cart').on('DOMSubtreeModified', function() {
         $(document.body).trigger('update_checkout');
+    })
 
-    });
-
-    $('form.checkout').on('click', '.remove-single-item-btn', function() {
+    $(document).on('change', '.product-quantity-val', function() {
         $(document.body).trigger('update_checkout');
-    });
+    })
 
-    $('.cart-single-page-item-added-from-main').hover(function() {
-        $(document.body).trigger('update_checkout');
-    });
+    // $('form.checkout').on('click mouseout', '.product-add-to-cart-ajax', function() {
+    //     $(document.body).trigger('update_checkout');
 
-    $('form.checkout').mouseout(function() {
-        $(document.body).trigger('update_checkout');
-    });
+    // });
+
+    // $('form.checkout').on('click', '.remove-single-item-btn', function() {
+    //     $(document.body).trigger('update_checkout');
+    // });
+
+    // $('.cart-single-page-item-added-from-main').hover(function() {
+    //     $(document.body).trigger('update_checkout');
+    // });
+
+    // $('form.checkout').mouseout(function() {
+    //     $(document.body).trigger('update_checkout');
+    // });
 
 });
 </script>
@@ -234,6 +251,52 @@ jQuery(function($) {
 
         $cart->add_fee('shipping_cost', $selected_shipping_cost, true);
 
+    }
+
+    public function custom_checkout_field_update_order_meta($order, $data)
+    {
+
+        if (isset($_POST['picked-up-date-value'])) {
+            // Save custom checkout field value
+            $order->update_meta_data('_picked-up-date-value', esc_attr($_POST['picked-up-date-value']));
+
+            // Save the custom checkout field value as user meta data
+            if ($order->get_customer_id()) {
+                update_user_meta($order->get_customer_id(), 'picked-up-date-value', esc_attr($_POST['picked-up-date-value']));
+            }
+
+        }
+
+        if (isset($_POST['picked-up-time-value'])) {
+            // Save custom checkout field value
+            $order->update_meta_data('_picked-up-time-value', esc_attr($_POST['picked-up-time-value']));
+
+            // Save the custom checkout field value as user meta data
+            if ($order->get_customer_id()) {
+                update_user_meta($order->get_customer_id(), 'picked-up-time-value', esc_attr($_POST['picked-up-time-value']));
+            }
+
+        }
+        if (isset($_POST['possible-order-delivery-request'])) {
+            // Save custom checkout field value
+            $order->update_meta_data('_possible-order-delivery-request', esc_attr($_POST['possible-order-delivery-request']));
+
+            // Save the custom checkout field value as user meta data
+            if ($order->get_customer_id()) {
+                update_user_meta($order->get_customer_id(), 'possible-order-delivery-request', esc_attr($_POST['possible-order-delivery-request']));
+            }
+
+        }
+        if (isset($_POST['custom-special-instructions'])) {
+            // Save custom checkout field value
+            $order->update_meta_data('_custom-special-instructions', esc_attr($_POST['custom-special-instructions']));
+
+            // Save the custom checkout field value as user meta data
+            if ($order->get_customer_id()) {
+                update_user_meta($order->get_customer_id(), 'custom-special-instructions', esc_attr($_POST['custom-special-instructions']));
+            }
+
+        }
     }
 
 }

@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
 
 do_action('woocommerce_before_checkout_form', $checkout);
 
-// If checkout registration is disableds and not logged in, the user cannot checkout.
+// If checkout registration is disabled and not logged in, the user cannot checkout.
 if (!$checkout->is_registration_enabled() && $checkout->is_registration_required() && !is_user_logged_in()) {
     echo esc_html(apply_filters('woocommerce_checkout_must_be_logged_in_message', __('You must be logged in to checkout.', 'woocommerce')));
     return;
@@ -44,47 +44,52 @@ $latest_products_info = wc_get_products($latest_products_args);
 $cart_total_price = WC()->cart->get_cart_contents_total();
 $woo_currency_symbol = get_woocommerce_currency_symbol();
 
-global $post;
+if (isset($_POST['email'])) {
+    global $post;
+}
+
 echo $post->ID;
 
 // include MULTI_STEP_AJAX_PLUGINS_DIR_PATH . 'includes/Frontend/templates/form-html.php';
 
 ?>
 
-<div class="container">
-
-    <form name="checkout" method="post" class="checkout woocommerce-checkout"
-        action="<?php echo esc_url(wc_get_checkout_url()); ?>" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-md-8">
-
-                <!-- Accordion Start -->
-
+<div class="">
+    <div class="row">
+        <div class="col-xs-12 col-md-8">
+            <!-- Accordion Start -->
+            <form name="checkout" method="post" class="checkout woocommerce-checkout" id="product-checkout-main-form"
+                action="<?php echo esc_url(wc_get_checkout_url()); ?>" enctype="multipart/form-data">
                 <div class="accordion" id="accordionExamples">
-
                     <!-- 1st accordion item -->
-                    <div class="accordion-item">
+                    <div class="accordion-item mb-2 main-checkout-accordion-item">
                         <h1 class="accordion-header" id="panelsStayOpen-headingOne">
-                            <button id="first-accordion-btn" class="accordion-button" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne"
-                                aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            <button id="first-accordion-btn"
+                                class="accordion-button accordion-button-text accordion-btn-collapse-expand"
+                                type="button" data-bs-toggle="collapse" data-bs-target="#first-accordion-item"
+                                aria-expanded="false" aria-controls="first-accordion-item">
+
+
                                 Please Select Your Items For Removal
+
                             </button>
                         </h1>
-                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                        <div id="first-accordion-item" class="accordion-collapse collapse p-2 show"
                             aria-labelledby="panelsStayOpen-headingOne">
                             <div class="accordion-body">
 
                                 <div class="service-categories text-xs-center">
                                     <div class="">
                                         <!-- showing most popular product in accordion items -->
-                                        <div class="mb-3 mt-3 h3 section-title-accordion-item">
-                                            <strong>
+                                        <div class="mb-4 mt-3 h3 section-title-accordion-item">
+                                            <p class="h2 ">
 
                                                 Most Popular Items
-                                            </strong>
+                                            </p>
+
+
                                         </div>
-                                        <div class="row product-main-items">
+                                        <div class="row product-main-items mb-5">
 
 
                                             <?php
@@ -101,19 +106,20 @@ foreach ($latest_products_info as $product) {
     array_push($latest_product_ids_arr, $product_id);
     ?>
 
-                                            <div class="col-md-3 col-sm-4 product-add-to-cart-ajax"
+                                            <div class="col-sm-4 col-md-3 col-6 product-add-to-cart-ajax mb-3"
                                                 items-to-add-id="<?php echo $product_id; ?>"
                                                 items-to-add-price="<?php echo $product_price; ?>">
                                                 <div class="wrimagecard wrimagecard-topimage">
                                                     <a href="">
-                                                        <div class="wrimagecard-topimage_header"
-                                                            style="background-color:rgba(187, 120, 36, 0.1) ">
-                                                            <img src="<?php echo $product_image_by_id; ?>" alt="">
+                                                        <div class="wrimagecard-topimage_header p-4">
+                                                            <img src="<?php echo $product_image_by_id; ?>"
+                                                                class="mx-auto d-block" alt="">
                                                         </div>
-                                                        <div class="wrimagecard-topimage_title">
-                                                            <h6> <?php echo $product_name; ?>
-                                                                <div class="pull-right badge">18</div>
-                                                            </h6>
+                                                        <div class="text-dark p-2 text-center">
+                                                            <p class="h2 product-heading-text">
+                                                                <?php echo $product_name; ?>
+
+                                                            </p>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -128,10 +134,10 @@ foreach ($latest_products_info as $product) {
 
 
 
-                                    <div class="mb-3 mt-3 h3 section-title-accordion-item">
-                                        <strong>
+                                    <div class="">
+                                        <p class="h2">
                                             Don't See Your Item?
-                                        </strong>
+                                        </p>
 
                                     </div>
 
@@ -140,22 +146,22 @@ foreach ($latest_products_info as $product) {
 
 $all_products_args = array(
     'status' => 'publish',
-    'exclude' => $latest_product_ids_arr,
+
+    // 'exclude' => $latest_product_ids_arr,
 );
 
 $all_products_info = wc_get_products($all_products_args);
 
 ?>
 
+                                    <div class="search-input-results-div">
+                                        <input type="text" id="search-query"
+                                            class="form-control my-2 bg-white text-dark" placeholder="Search Your Item">
+                                        <ul class="list-group bg-white text-dark d-none search-result-vertical"
+                                            id="list-group-for-search">
 
 
-
-                                    <input type="text" id="search-query" class="form-control my-3 bg-white text-dark"
-                                        placeholder="Search Your Item">
-                                    <ul class="list-group bg-white text-dark d-none" id="list-group-for-search">
-
-
-                                        <?php
+                                            <?php
 
 foreach ($all_products_info as $single_product) {
 
@@ -167,26 +173,28 @@ foreach ($all_products_info as $single_product) {
 
     ?>
 
-                                        <li class="list-group-item list-group-item-white search-result-item"
-                                            list-product-id="<?php echo $product_id; ?>">
+                                            <li class="list-group-item list-group-item-white search-result-item h3 pt-3 pb-3"
+                                                list-product-id="<?php echo $product_id; ?>">
 
-                                            <?php echo $product_name; ?>
-                                        </li>
-                                        <?php }?>
+                                                <?php echo $product_name; ?>
+                                            </li>
+                                            <?php }?>
 
-                                    </ul>
-                                    <div class="mb-4 mt-4">
-                                        <span>
-                                            <p class="h3 new-form-link-text">
+                                        </ul>
+                                    </div>
+                                    <div class="mb-4 mt-5">
+                                        <span class="text-center">
+                                            <p class="h2 new-form-link-text">
+                                                Have a bunch of items or don't see them
+                                                listed?
+                                            </p>
+                                            <a href="#" class="h2 new-form-link load-size-form-link">
                                                 <strong>
 
-
-                                                    Have a bunch of items or don't see them
-                                                    listed?
+                                                    Click Here to Book
+                                                    by
+                                                    Load Size
                                                 </strong>
-                                            </p>
-                                            <a href="#" class="h3 new-form-link text-danger">Click Here to Book by
-                                                Load Size
                                             </a>
                                         </span>
                                     </div>
@@ -196,32 +204,30 @@ foreach ($all_products_info as $single_product) {
                                     <div
                                         class="row cart-single-page-item-added-from-main d-flex justify-content-center my-4">
                                         <div class="col-md-12 card mb-4 border-0">
-                                            <div class="card-header py-3 bg-dark text-white border-0">
-                                                <h5 class="mb-0 text-white">My Items</h5>
+                                            <div class="card-header py-3 my-items-heading border-0">
+                                                <p class="mb-0 h2 text-center">
+                                                    <strong>
+
+                                                        My Items
+                                                    </strong>
+                                                </p>
                                             </div>
                                             <div class="card-body single-product-added-to-cart border-0">
 
-                                                <p class="card no-products-text border-0 h3 text-danger">
+                                                <p
+                                                    class="card no-products-text border-0 h2 text-danger text-center mt-2 mb-2">
 
-                                                    <strong>
 
-                                                        There are no products on your cart. please
-                                                        add from upper side.
-                                                    </strong>
+                                                    There are no products on your cart. Please add your items from
+                                                    above.
+
 
                                                 </p>
-
-
-
                                             </div>
-
                                         </div>
-
-
-
                                         <div
                                             class="d-grid gap-2 d-md-flex justify-content-md-end accordion-next-btn-wrapper">
-                                            <button class="btn btn btn-lg btn-outline-dark me-1 mb-2"
+                                            <button class="btn btn btn-lg btn-outline-dark me-1 mb-2" disabled
                                                 id="first-accordion-item-next" type="button">Next</button>
                                         </div>
                                     </div>
@@ -232,10 +238,12 @@ foreach ($all_products_info as $single_product) {
                     <!-- 1st accordion item -->
 
                     <!-- 2nd accordion item -->
-                    <div class="accordion-item">
+                    <div class="accordion-item mb-2 main-checkout-accordion-item">
                         <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button collapsed" id="second-accordion-btn" disableds type="button"
-                                data-bs-toggle="collapse" data-bs-target="#second-accordion-item" aria-expanded="false"
+                            <button
+                                class="accordion-button accordion-button-text accordion-btn-collapse-expand collapsed"
+                                id="second-accordion-btn" disabled type="button" data-bs-toggle="collapse"
+                                data-bs-target="#second-accordion-item" aria-expanded="false"
                                 aria-controls="second-accordion-item">
                                 When Would You Like To Picked Up?
                             </button>
@@ -247,30 +255,23 @@ foreach ($all_products_info as $single_product) {
                                 <!-- calender and select row -->
                                 <div class="row">
                                     <!-- calender row -->
-                                    <div class="col-md-6">
-
-
-
-
+                                    <div class="col-md-6 mb-3">
                                         <div id="date-picker-example"
                                             class="md-form md-outline input-with-post-icon datepicker" inline="true">
-                                            <input placeholder="Select date" type="date" id="datepicker-input"
-                                                class="form-control">
+                                            <input placeholder="Select date" name="picked-up-date-value" type="date"
+                                                id="datepicker-input" class="form-control input-field-date-time">
 
-                                            <h4 class="text-success mt-3 font-italic">
-                                                We allow scheduling for next day up to 90 days in
-                                                advance!
-                                            </h4>
+
                                         </div>
-
 
                                     </div>
 
 
                                     <!-- calender row -->
                                     <div class="col-md-6">
-                                        <select class="form-select form-select-lg mb-3 form-select-pickup-time"
-                                            aria-label=".form-select-lg example">
+                                        <select
+                                            class="form-select form-select-lg mb-3 form-select-pickup-time input-field-date-time"
+                                            name="picked-up-time-value" aria-label=".form-select-lg example">
                                             <option selected>Open this select menu</option>
                                             <option value="morning">Morning(8am - 12am)</option>
                                             <option value="afternoon">Afternoon(12pm - 4pm)</option>
@@ -280,18 +281,27 @@ foreach ($all_products_info as $single_product) {
                                     </div>
 
                                     <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="mt-3 mb-3 h2 text-heading-class">
 
-                                        <div class="col-md-10">
 
-                                            <h3>
+                                                We allow scheduling for next day up to 90 days in
+                                                advance!
+
+                                            </p>
+                                        </div>
+
+                                        <div class="col-md-11 col-sm-10 col-10">
+
+                                            <p class="h2 mt-2 mb-2 text-dark">
                                                 Would you like us to complete your order as soon as possible?
-                                            </h3>
+                                            </p>
 
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-1 col-sm-2 col-2 my-auto">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value=""
-                                                    id="flexCheckDefault">
+                                                <input class="form-check-input" type="checkbox" value="yes"
+                                                    name="possible-order-delivery-request" id="flexCheckDefault">
 
                                             </div>
                                         </div>
@@ -299,231 +309,219 @@ foreach ($all_products_info as $single_product) {
 
 
                                     <div class="">
-
-                                        <h4 class="text-success font-italic">
+                                        <p class="mt-3 mb-3 h2 text-heading-class">
                                             If we can accommodate an earlier time and/or date, we will contact you to
                                             verify the change. This could be as soon as 1 hour from the time your
                                             booking is placed. If we are unable to come sooner, we will work your order
                                             according to your scheduled date/time you've selected.
-                                        </h4>
+                                        </p>
 
                                     </div>
 
 
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <h4>
-                                                Special Instructions
-                                            </h4>
+                                    <div class="mt-3 mb-3">
 
-
-                                        </div>
-                                        <div class="col-md-7">
-                                            <h4>
-                                                (mattress size, dimensions, description, etc.)
-                                            </h4>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <textarea class="form-control" id="exampleFormControlTextarea1"
-                                                rows="6"></textarea>
-                                        </div>
-
-
+                                        <p class="h2">
+                                            Special Instructions (mattress size, dimensions, description, etc.)
+                                        </p>
                                     </div>
 
 
-
-
-                                    <div
-                                        class="d-grid gap-2 d-md-flex justify-content-md-end accordion-next-btn-wrapper mt-5">
-                                        <button class="btn btn btn-lg btn-outline-dark me-1 mb-2"
-                                            id="second-accordion-item-next" type="button">Next</button>
+                                    <div class="form-group">
+                                        <textarea name="custom-special-instructions" class="form-control"
+                                            id="exampleFormControlTextarea1" rows="6"></textarea>
                                     </div>
 
                                 </div>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 3rd accordion item -->
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button collapsed" id="third-accordion-btn" disableds type="button"
-                                data-bs-toggle="collapse" data-bs-target="#third-accordion-item" aria-expanded="false"
-                                aria-controls="third-accordion-item">
-                                Orders Details
-                            </button>
-                        </h2>
-                        <div id="third-accordion-item" class="accordion-collapse collapse" aria-labelledby="headingOne"
-                            data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <h1>In Home or Outdoor Pickup?</h1>
-
-
-                                <div class="mb-2">
-
-
-                                    <div class="card shipping-pick-up-card-1 shipping-pick-up-cards bg-dark text-white"
-                                        shipping-cost="0">
-                                        <div class="card-body">
-                                            <p class="mb-0 shipping-pick-up-heading">
-                                                <strong>In Home Pick Up</strong>
-                                            </p>
-                                            <p class="mb-0">Your Loaders will remove and transport your item(s) from
-                                                inside your
-                                                home.</p>
-                                        </div>
-
-                                    </div>
-                                    <div class="card mt-3 shipping-pick-up-card-2 shipping-pick-up-cards"
-                                        shipping-cost="5">
-                                        <div class="card-body">
-                                            <p class="mb-0 shipping-pick-up-heading">
-                                                <strong> Outdoor Pick Up </strong> ($5 Discount)
-                                            </p>
-                                            <p class="mb-0">Your Loaders will pick up your item(s) from outside your
-                                                home or building. You are responsible for placing your item(s) outdoors
-                                                and are not required to be present during the pickup. *$5 Discount is
-                                                not applicable with promo code.*</p>
-                                        </div>
-                                    </div>
-
-
-
-
-                                </div>
-
-
-
-
                                 <div
-                                    class="d-grid gap-2 d-md-flex justify-content-md-end accordion-next-btn-wrapper  mt-5">
-                                    <button class="btn btn-lg btn-outline-dark me-1 mb-2" id="third-accordion-item-next"
-                                        type="button">Next</button>
+                                    class="d-grid gap-2 d-md-flex justify-content-md-end accordion-next-btn-wrapper mt-5">
+                                    <button class="btn btn btn-lg btn-outline-dark me-1 mb-2"
+                                        id="second-accordion-item-next" disabled type="button">Next</button>
                                 </div>
 
                             </div>
+
+
                         </div>
                     </div>
+                </div>
 
-
-
-
-
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingOne">
-                            <button id="fourth-accordion-btn" class="accordion-button collapsed" disableds type="button"
-                                data-bs-toggle="collapse" data-bs-target="#collapseOnes" aria-expanded="false"
-                                aria-controls="collapseOnes">
-                                Contact Information
-                            </button>
-                        </h2>
-
-
-
-                        <div id="collapseOnes" class="accordion-collapse collapse" aria-labelledby="headingOne"
-                            data-bs-parent="#accordionExamples">
-                            <div class="accordion-body">
-                                <?php if ($checkout->get_checkout_fields()): ?>
-
-                                <?php do_action('woocommerce_checkout_before_customer_details');?>
-
-                                <div class="col2-set" id="customer_details">
-                                    <div class="col-1">
-                                        <?php do_action('woocommerce_checkout_billing');?>
+                <!-- 3rd accordion item -->
+                <div class="accordion-item mb-2 main-checkout-accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button accordion-button-text accordion-btn-collapse-expand  collapsed"
+                            id="third-accordion-btn" disabled type="button" data-bs-toggle="collapse"
+                            data-bs-target="#third-accordion-item" aria-expanded="false"
+                            aria-controls="third-accordion-item">
+                            Orders Details
+                        </button>
+                    </h2>
+                    <div id="third-accordion-item" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body p-4">
+                            <h1>In Home or Outdoor Pickup?</h1>
+                            <div class="mb-2">
+                                <div class="card shipping-pick-up-card-1 shipping-pick-up-cards shipping-select-class"
+                                    shipping-cost="0">
+                                    <div class="card-body">
+                                        <p class="mb-0 shipping-pick-up-heading">
+                                            <strong>In Home Pick Up</strong>
+                                        </p>
+                                        <p class="mb-0">Your Loaders will remove and transport your item(s) from
+                                            inside your
+                                            home.</p>
                                     </div>
 
-                                    <div class="col-2">
-                                        <?php do_action('woocommerce_checkout_shipping');?>
+                                </div>
+                                <div class="card mt-3 shipping-pick-up-card-2 shipping-pick-up-cards" shipping-cost="5">
+                                    <div class="card-body">
+                                        <p class="mb-0 shipping-pick-up-heading">
+                                            <strong> Outdoor Pick Up </strong> ($5 Discount)
+                                        </p>
+                                        <p class="mb-0">Your Loaders will pick up your item(s) from outside your
+                                            home or building. You are responsible for placing your item(s) outdoors
+                                            and are not required to be present during the pickup. *$5 Discount is
+                                            not applicable with promo code.*</p>
                                     </div>
                                 </div>
-
-                                <?php do_action('woocommerce_checkout_after_customer_details');?>
-
-                                <?php endif;?>
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-end accordion-next-btn-wrapper">
-
-                                    <button class="btn btn-lg btn-outline-dark me-1 mb-2"
-                                        id="fourth-accordion-item-next" type="button">Next</button>
-
-                                </div>
-
-
                             </div>
-                        </div>
 
-                    </div>
-
-
-
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed" id="fifth-accordion-btn" disableds type="button"
-                                data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
-                                aria-controls="collapseTwo">
-                                Payment Information
-                            </button>
-                        </h2>
-
-                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                            data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-
-                                <?php do_action('woocommerce_checkout_before_order_review_heading');?>
-
-                                <h3 id="orders_info_texts"><?php esc_html_e('Your orders info', 'woocommerce');?>
-                                </h3>
-
-                                <?php do_action('woocommerce_checkout_before_order_review');?>
-
-                                <div id="order_review" class="woocommerce-checkout-review-order">
-                                    <?php do_action('woocommerce_checkout_order_review');?>
-                                </div>
-
-                                <?php do_action('woocommerce_checkout_after_order_review');?>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end accordion-next-btn-wrapper  mt-5">
+                                <button class="btn btn-lg btn-outline-dark me-1 mb-2" id="third-accordion-item-next"
+                                    type="button">Next</button>
                             </div>
+
                         </div>
                     </div>
+                </div>
 
+
+
+
+
+                <div class="accordion-item mb-2 main-checkout-accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button id="fourth-accordion-btn"
+                            class="accordion-button accordion-btn-collapse-expand collapsed accordion-button-text"
+                            disabled type="button" data-bs-toggle="collapse" data-bs-target="#collapseOnes"
+                            aria-expanded="false" aria-controls="collapseOnes">
+                            Contact Information
+                        </button>
+                    </h2>
+
+
+
+                    <div id="collapseOnes" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                        data-bs-parent="#accordionExamples">
+                        <div class="accordion-body checkout-woo-process-options p-4">
+                            <?php if ($checkout->get_checkout_fields()): ?>
+
+                            <?php do_action('woocommerce_checkout_before_customer_details');?>
+
+                            <div class="col2-set" id="customer_details">
+                                <div class="col-1">
+                                    <?php do_action('woocommerce_checkout_billing');?>
+                                </div>
+
+                                <div class="col-2">
+                                    <?php do_action('woocommerce_checkout_shipping');?>
+                                </div>
+                            </div>
+
+                            <?php do_action('woocommerce_checkout_after_customer_details');?>
+
+                            <?php endif;?>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end accordion-next-btn-wrapper">
+
+                                <button class="btn btn-lg btn-outline-dark me-1 mb-2" id="fourth-accordion-item-next"
+                                    disabled type="button">Next</button>
+
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
 
                 </div>
 
 
-            </div>
+                <!--  accordion item -->
+                <div class="accordion-item mb-2 main-checkout-accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed accordion-btn-collapse-expand accordion-button-text"
+                            id="fifth-accordion-btn" disabled type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Payment Information
+                        </button>
+                    </h2>
 
-            <?php
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body p-4">
+
+                            <?php do_action('woocommerce_checkout_before_order_review_heading');?>
+
+                            <h3 id="orders_info_texts"><?php esc_html_e('Your orders info', 'woocommerce');?>
+                            </h3>
+
+                            <?php do_action('woocommerce_checkout_before_order_review');?>
+
+                            <div id="order_review" class="woocommerce-checkout-review-order">
+                                <?php do_action('woocommerce_checkout_order_review');?>
+                            </div>
+
+                            <?php do_action('woocommerce_checkout_after_order_review');?>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+
+
+
+        <?php
 
 ?>
 
 
 
-            <div class="col-md-4 guranteed-price-col">
-                <div class="row accordion-item p-4">
-                    <div class="order-summary-col">
+        <div class="col-md-4 guranteed-price-col mt-2">
+            <div class="row accordion-item main-checkout-accordion-item p-4 m-1">
+                <div class="order-summary-col">
 
-                        <h3 class="text-center">Order Details</h3>
-                        <div class="row price-row mt-2">
-                            <h4 class="mb-0 p-3">Guranteed Price:
+                    <p class="text-center h2">
+                        <strong>
 
-                                <span class="product_total_price"></span>
+                            Order Details
+                        </strong>
+                    </p>
+                    <div class="row price-row mt-4">
+                        <p class="mb-0 p-3 h2">
+
+                            Guranteed Price:
 
 
-                            </h4>
+                            <span class="product_total_price"></span>
 
-                        </div>
+
+                        </p>
 
                     </div>
+
                 </div>
             </div>
-
-
         </div>
-    </form>
-</div>
 
 
 
-<?php do_action('woocommerce_after_checkout_form', $checkout);?>
+    </div>
+
+
+
+
+
+    <?php do_action('woocommerce_after_checkout_form', $checkout);?>

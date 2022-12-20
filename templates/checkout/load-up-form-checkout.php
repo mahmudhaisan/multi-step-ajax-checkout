@@ -35,7 +35,6 @@ if (!$checkout->is_registration_enabled() && $checkout->is_registration_required
 $latest_products_args = array(
     'status' => 'publish',
     'limit' => 10,
-    'product_cat' => 'loadup',
 
 );
 
