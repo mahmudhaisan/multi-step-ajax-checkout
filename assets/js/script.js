@@ -426,9 +426,18 @@ $('.input-field-date-time').change(function() {
 
   var empty = false;
   $('.input-field-date-time').each(function() {
-      if ($(this).val().length == 0) {
-          empty = true;
-      }
+
+    let time_date_value = $(this).val();
+    // alert(time_date_value);
+
+    if(time_date_value == 'default'){
+      empty = true;
+      // alert(empty);
+    }else if(time_date_value == 0){
+      empty = true;
+    }
+  
+    
   });
 
   if (empty) {
@@ -441,6 +450,40 @@ $('.input-field-date-time').change(function() {
   
 });
 
+
+$('.loadup-input-field-date-time').change(function() {
+
+  var empty = false;
+
+ 
+
+  // alert($(this).val());
+
+  $('.loadup-input-field-date-time').each(function() {
+
+    let time_date_value = $(this).val();
+    // alert(time_date_value);
+
+    if(time_date_value == 'default'){
+      empty = true;
+      // alert(empty);
+    }else if(time_date_value == 0){
+      empty = true;
+    }
+  
+    
+  });
+
+
+  if (empty) {
+    $('#loadup-third-step-next-btn').prop('disabled', true);
+  } else {
+    $('#loadup-third-step-next-btn').prop('disabled', false);
+  }
+
+ 
+  
+});
 
 
 
@@ -487,6 +530,9 @@ $('#fourth-accordion-item-next').click(function(e){
 //loadup form
 $('.radio-fixed-details-card').click(function (e) {
   e.preventDefault();
+  let junk_removal_text = $(this).attr('junk-removal-text');
+  $('#form-select-junk-type-text').attr('value', junk_removal_text);
+
   $('.radio-fixed-details-card').removeClass('selected');
   $(this).addClass('selected');  
 });
@@ -504,6 +550,8 @@ var card_selected_product_name =  $(this).find('.card-product-item-name').data('
 $('#load-size-type-value').empty().append(card_selected_product_name);
 
 $('#loadup-second-step-next-btn').prop('disabled', false);
+$('.radio-add-to-cart-item-ajax').removeClass('selected');
+$(this).addClass('selected'); 
 
 $.ajax({
 url: multistep_ajax_script.ajaxurl,
@@ -536,24 +584,25 @@ var billing_phone = $('#billing_phone').val();
 var billing_address_1 = $('#billing_address_1').val();
 var billing_address_2 = $('#billing_address_2').val();
 
-var pickup_date = $('.loadup-billing-details').attr('loadup-pickup-date');
-var pickup_time = $('.loadup-billing-details').attr('loadup-pickup-time');
+var pickup_date = $('#datepicker-input-date-val').val();
+
+var pickup_time = $('#datepicker-input-time-val option:selected').val();
 
 $('.loadup-customer-billing-contact').empty();
 $('.loadup-customer-pickup-date').empty();
 $('.loadup-customer-pickup-address').empty();
 
-$('.loadup-customer-billing-contact').append('<td>'+ billing_first_name + ' ' + billing_last_name+'</td>');
-$('.loadup-customer-billing-contact').append('<td>'+ pickup_date +'</td>');
-$('.loadup-customer-billing-contact').append('<td>'+ billing_address_1 +'</td>');
+$('.loadup-customer-billing-contact').append( '<div class="user_provided_vals">' + billing_first_name + ' ' + billing_last_name + '</div>');
+$('.loadup-customer-billing-contact').append('<div class="user_provided_vals">' + billing_phone + '</div>');
+$('.loadup-customer-billing-contact').append('<div class="user_provided_vals">' + billing_email + '</div>');
+
+$('.loadup-customer-pickup-date').append('<div class="user_provided_vals">' + pickup_date  + '</div>');
+$('.loadup-customer-pickup-date').append( '<div class="user_provided_vals">' + pickup_time + '</div>');
 
 
-$('.loadup-customer-pickup-date').append('<td>'+ billing_phone +'</td>');
-$('.loadup-customer-pickup-date').append('<td>'+ pickup_time +'</td>');
-$('.loadup-customer-pickup-date').append('<td>'+ billing_address_2 +'</td>');
 
-
-$('.loadup-customer-pickup-address').append('<td>'+ billing_email +'</td>');
+$('.loadup-customer-pickup-address').append('<div class="user_provided_vals">' + billing_address_1 + '</div>' );
+$('.loadup-customer-pickup-address').append('<div class="user_provided_vals">' + billing_address_2 + '</div>');
 
 
 // alert($(this).val()); 
@@ -621,25 +670,27 @@ $('#loadup-fourth-step-next-btn').click(function(e){
   var billing_address_1 = $('#billing_address_1').val();
   var billing_address_2 = $('#billing_address_2').val();
 
-  var pickup_date = $('.loadup-billing-details').attr('loadup-pickup-date');
-  var pickup_time = $('.loadup-billing-details').attr('loadup-pickup-time');
+  var pickup_date = $('#datepicker-input-date-val').val();
+  var pickup_time = $('#datepicker-input-time-val option:selected').val();
+
 
   $('.loadup-customer-billing-contact').empty();
   $('.loadup-customer-pickup-date').empty();
   $('.loadup-customer-pickup-address').empty();
 
-  $('.loadup-customer-billing-contact').append('<td>'+ billing_first_name + ' ' + billing_last_name+'</td>');
-  $('.loadup-customer-billing-contact').append('<td>'+ pickup_date +'</td>');
-  $('.loadup-customer-billing-contact').append('<td>'+ billing_address_1 +'</td>');
-
-
-  $('.loadup-customer-pickup-date').append('<td>'+ billing_phone +'</td>');
-  $('.loadup-customer-pickup-date').append('<td>'+ pickup_time +'</td>');
-  $('.loadup-customer-pickup-date').append('<td>'+ billing_address_2 +'</td>');
-
-
-  $('.loadup-customer-pickup-address').append('<td>'+ billing_email +'</td>');
-
+  $('.loadup-customer-billing-contact').append( '<div class="user_provided_vals">' + billing_first_name + ' ' + billing_last_name + '</div>');
+  $('.loadup-customer-billing-contact').append('<div class="user_provided_vals">' + billing_phone + '</div>');
+  $('.loadup-customer-billing-contact').append('<div class="user_provided_vals">' + billing_email + '</div>');
+  
+  $('.loadup-customer-pickup-date').append('<div class="user_provided_vals">' + pickup_date  + '</div>');
+  $('.loadup-customer-pickup-date').append( '<div class="user_provided_vals">' + pickup_time + '</div>');
+  
+  
+  
+  $('.loadup-customer-pickup-address').append('<div class="user_provided_vals">' + billing_address_1 + '</div>' );
+  $('.loadup-customer-pickup-address').append('<div class="user_provided_vals">' + billing_address_2 + '</div>');
+  
+  
 });
 
 // $('.accordion-btn-collapse-expand ').click(function(e){

@@ -328,3 +328,22 @@ font-size: 18px;
    background-color:  #a5e03f; 
    color: #000;
 }
+
+
+.loadup-accordion-button-item{
+    font-size: 21px !important;
+    font-weight: bold;
+}
+
+.loadup-accordion-button-item.collapsed {
+    border: 1px solid rgb(165, 224, 63);
+}
+
+#accordionExample .accordion-item  {
+    border: 0 !important;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 20%);
+}
+
+.loadup-accordion-button-item.collapsed{
+    border-bottom: 1px solid #a5e03f !important;
+}

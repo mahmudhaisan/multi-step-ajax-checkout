@@ -76,7 +76,7 @@ class Shortcode
     public function second_place_order_button()
     {
         global $post;
-        echo $post->ID;
+        // echo $post->ID;
         if ($post->ID == 80) {
 
             $order_button_text = apply_filters('woocommerce_order_button_text', __("Renew Subscription", "woocommerce"));
@@ -297,6 +297,17 @@ jQuery(function($) {
             }
 
         }
+        if (isset($_POST['form-select-junk-type-text'])) {
+            // Save custom checkout field value
+            $order->update_meta_data('_form-select-junk-type-text', esc_attr($_POST['form-select-junk-type-text']));
+
+            // Save the custom checkout field value as user meta data
+            if ($order->get_customer_id()) {
+                update_user_meta($order->get_customer_id(), 'form-select-junk-type-text', esc_attr($_POST['form-select-junk-type-text']));
+            }
+
+        }
+
     }
 
 }

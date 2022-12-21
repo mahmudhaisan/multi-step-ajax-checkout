@@ -272,7 +272,7 @@ foreach ($all_products_info as $single_product) {
                                         <select
                                             class="form-select form-select-lg mb-3 form-select-pickup-time input-field-date-time"
                                             name="picked-up-time-value" aria-label=".form-select-lg example">
-                                            <option selected>Open this select menu</option>
+                                            <option value="default" selected>Open this select menu</option>
                                             <option value="morning">Morning(8am - 12am)</option>
                                             <option value="afternoon">Afternoon(12pm - 4pm)</option>
                                             <option value="evening">Evening(4pm - 8pm)</option>

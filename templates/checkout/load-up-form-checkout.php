@@ -34,7 +34,7 @@ if (!$checkout->is_registration_enabled() && $checkout->is_registration_required
 
 $latest_products_args = array(
     'status' => 'publish',
-    'limit' => 10,
+    'limit' => 5,
 
 );
 
@@ -48,7 +48,7 @@ $woo_currency_symbol = get_woocommerce_currency_symbol();
 
 ?>
 
-<div class="container mt-5 mb-5">
+<div class="mt-5 mb-5">
 
 
     <div class="row">
@@ -60,17 +60,19 @@ $woo_currency_symbol = get_woocommerce_currency_symbol();
                 <div class="accordion" id="accordionExample">
 
                     <!-- 1st accordion item -->
-                    <div class="accordion-item">
+                    <div class="accordion-item mb-3">
 
-                        <button class="accordion-button h2 accordion-btn-collapse-expand" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                            aria-controls="panelsStayOpen-collapseOne">
+                        <button class="accordion-button  accordion-btn-collapse-expand loadup-accordion-button-item"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne"
+                            aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
                             Job Type
                         </button>
 
                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
                             aria-labelledby="panelsStayOpen-headingOne">
-                            <div class="accordion-body container ">
+                            <div class="accordion-body  ">
+                                <input type="hidden" id="form-select-junk-type-text" name="form-select-junk-type-text"
+                                    junk-type-text="">
 
                                 <div class="service-categories text-center text-xs-center">
                                     <div class="">
@@ -80,11 +82,11 @@ $woo_currency_symbol = get_woocommerce_currency_symbol();
                                         </div>
                                         <div class="row radio-group  product-main-items d-flex aligns-items-center">
 
-                                            <div class="col-md-3 col-sm-4">
+                                            <div class="col-md-3 col-sm-4 col-6 mb-4">
                                                 <div class="card card-select-items items-center">
 
-                                                    <div
-                                                        class="card-body radio-fixed-details-card p-5 card-height-equal">
+                                                    <div class="card-body radio-fixed-details-card p-5 card-height-equal"
+                                                        junk-removal-text="Household Items">
                                                         <div class="d-flex aligns-items-center justify-content-center">
 
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="50"
@@ -94,20 +96,20 @@ $woo_currency_symbol = get_woocommerce_currency_symbol();
                                                                 </path>
                                                             </svg>
                                                         </div>
-                                                        <h3 class="card-title h2 mt-2 text-center card-loadup-info-text"
+                                                        <p class="card-title h2 mt-4 text-center card-loadup-info-text"
                                                             data-value="household items">
-                                                            HOUSEHOLD ITEMS </h3>
+                                                            HOUSEHOLD ITEMS </p>
                                                         <p
-                                                            class="card-text text-gray-800 uppercase font-light mt-2 text-center">
+                                                            class="card-text text-gray-800 h4 uppercase font-light mt-2 text-center">
                                                             Furniture, decor, lamps etc</p>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3 col-sm-4">
+                                            <div class="col-md-3 col-sm-4 col-6 mb-4">
                                                 <div class="card card-select-items">
 
-                                                    <div
-                                                        class="card-body radio-fixed-details-card p-5 card-height-equal">
+                                                    <div class="card-body radio-fixed-details-card p-5 card-height-equal"
+                                                        junk-removal-text="Office Cleanout">
                                                         <div class="d-flex aligns-items-center justify-content-center">
                                                             <svg xmlns="http://www.w3.org/2000/svg" id="Layer_2"
                                                                 data-name="Layer 2" viewBox="0 0 64.67 65.55"
@@ -183,16 +185,16 @@ $woo_currency_symbol = get_woocommerce_currency_symbol();
                                                             </svg>
                                                         </div>
 
-                                                        <h3 class="card-title h2 mt-2 card-loadup-info-text"
-                                                            data-value="office cleanout">OFFICE CLEANOUT</h3>
-                                                        <p class="card-text">Desks, chairs, cubicles etc</p>
+                                                        <p class="card-title h2 mt-4 card-loadup-info-text"
+                                                            data-value="office cleanout">OFFICE CLEANOUT</p>
+                                                        <p class="card-text h4">Desks, chairs, cubicles etc</p>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3 col-sm-4">
+                                            <div class="col-md-3 col-sm-4 mb-4 col-6">
                                                 <div class="card card-select-items">
-                                                    <div
-                                                        class="card-body radio-fixed-details-card p-5 card-height-equal">
+                                                    <div class="card-body radio-fixed-details-card p-5 card-height-equal"
+                                                        junk-removal-text="Yard Debris">
                                                         <div class="d-flex aligns-items-center justify-content-center">
                                                             <svg xmlns="http://www.w3.org/2000/svg" id="Layer_2"
                                                                 data-name="Layer 2" viewBox="0 0 68.79 61.16"
@@ -294,16 +296,16 @@ $woo_currency_symbol = get_woocommerce_currency_symbol();
                                                                 </g>
                                                             </svg>
                                                         </div>
-                                                        <h3 class="card-title h2 mt-2 card-loadup-info-text"
-                                                            data-value="yard debris">YARD DEBRIS</h3>
-                                                        <p class="card-text">Brush, lawn bags, sticks etc </p>
+                                                        <p class="card-title h2 mt-4 card-loadup-info-text"
+                                                            data-value="yard debris">YARD DEBRIS</p>
+                                                        <p class="card-text h4">Brush, lawn bags, sticks etc </p>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3 col-sm-4">
+                                            <div class="col-md-3 col-sm-4 mb-4 col-6">
                                                 <div class="card ">
-                                                    <div
-                                                        class="card-body radio-fixed-details-card p-5 card-height-equal">
+                                                    <div class="card-body radio-fixed-details-card p-5 card-height-equal"
+                                                        junk-removal-text="Others">
                                                         <div class="d-flex aligns-items-center justify-content-center">
                                                             <svg xmlns="http://www.w3.org/2000/svg" id="Layer_2"
                                                                 data-name="Layer 2" viewBox="0 0 65.43 59.82"
@@ -344,7 +346,7 @@ $woo_currency_symbol = get_woocommerce_currency_symbol();
                                                         </div>
                                                         <h3 class="card-title h2 mt-2 card-loadup-info-text"
                                                             data-value="others">OTHERS</h3>
-                                                        <p class="card-text">Bags, Cardboard etc</p>
+                                                        <p class="card-text h4">Bags, Cardboard etc</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -365,10 +367,11 @@ $woo_currency_symbol = get_woocommerce_currency_symbol();
                     <!-- 1st accordion item -->
 
                     <!-- 2ndd accordion item -->
-                    <div class="accordion-item">
+                    <div class="accordion-item mb-3">
 
 
-                        <button class="accordion-button h2 collapsed accordion-btn-collapse-expand"
+                        <button
+                            class="accordion-button h2 collapsed accordion-btn-collapse-expand loadup-accordion-button-item"
                             id="second-accordion-btn-loadup" disabled type="button" data-bs-toggle="collapse"
                             data-bs-target="#second-loadup-accordion-item" aria-expanded="false"
                             aria-controls="second-loadup-accordion-item">
@@ -376,7 +379,7 @@ $woo_currency_symbol = get_woocommerce_currency_symbol();
                         </button>
 
                         <div id="second-loadup-accordion-item" class="accordion-collapse collapse" aria-labelledby="">
-                            <div class="accordion-body container">
+                            <div class="accordion-body">
                                 <p class="text-center h1 font-weight-bold mt-5">How much junk do you need removed?</p>
                                 <p class="text-center h3 font-weight-bold mt-2 mb-5">Use your best guess. We'll review
                                     your
@@ -398,21 +401,25 @@ foreach ($latest_products_info as $product) {
 
     ?>
 
-
-                                    <div class="col-xl col-md-3 col-sm-4 radio-add-to-cart-item-ajax "
-                                        id="card-product-items-load" items-to-add-id="<?php echo $product_id; ?>"
+                                    <div class="col-xl col-md-2 col-6 col-sm-4 radio-add-to-cart-item-ajax mb-3"
+                                        items-to-add-id="<?php echo $product_id; ?>"
                                         items-to-add-price="<?php echo $product_price; ?>">
-                                        <div class="card card-select-items cart-product-select-item p-3 mt-3">
-                                            <img src="<?php echo $product_image_by_id; ?>" class="card-img-top"
-                                                alt="...">
-                                            <div class="card-body">
-                                                <h3 class="card-title card-product-item-name"
-                                                    data-product="<?php echo $product_name; ?>">
-                                                    <?php echo $product_name; ?> </h3>
+                                        <div class="wrimagecard wrimagecard-topimage">
+                                            <a href="">
+                                                <div class="wrimagecard-topimage_header p-4">
+                                                    <img src="<?php echo $product_image_by_id; ?>"
+                                                        class="mx-auto d-block" alt="">
+                                                </div>
+                                                <div class="text-dark p-2 text-center">
+                                                    <p class="h2 product-heading-text">
+                                                        <?php echo $product_name; ?>
 
-                                            </div>
+                                                    </p>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
+
 
 
 
@@ -434,9 +441,10 @@ foreach ($latest_products_info as $product) {
                     <!-- 2nd accordion item -->
 
                     <!-- 3rd accordion item -->
-                    <div class="accordion-item">
+                    <div class="accordion-item mb-3">
 
-                        <button class="accordion-button h2 collapsed accordion-btn-collapse-expand"
+                        <button
+                            class="accordion-button h2 collapsed accordion-btn-collapse-expand loadup-accordion-button-item"
                             id="third-accordion-btn-loadup" disabled type="button" data-bs-toggle="collapse"
                             data-bs-target="#third-loadup-accordion-item" aria-expanded="true"
                             aria-controls="third-loadup-accordion-item">
@@ -448,21 +456,22 @@ foreach ($latest_products_info as $product) {
 
                         <div id="third-loadup-accordion-item" class="accordion-collapse collapse"
                             aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                            <div class="accordion-body container">
+                            <div class="accordion-body">
                                 <h2 class="text-center d-flex aligns-items-center justify-content-center">When Would You
                                     Like To Picked Up?</h2>
 
                                 <!-- calender and select row -->
-                                <div class="container">
+                                <div class="">
                                     <div class="row">
                                         <!-- calender row -->
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 mb-3">
 
                                             <div id="date-picker-example"
                                                 class="md-form md-outline input-with-post-icon datepicker"
                                                 inline="true">
-                                                <input placeholder="Select date" type="date" id="datepicker-input"
-                                                    class="form-control">
+                                                <input placeholder="Select date" type="date"
+                                                    id="datepicker-input-date-val"
+                                                    class="form-control loadup-input-field-date-time">
 
 
                                             </div>
@@ -472,10 +481,11 @@ foreach ($latest_products_info as $product) {
 
 
                                         <!-- calender row -->
-                                        <div class="col-md-6">
-                                            <select class="form-select form-select-lg mb-3 form-select-pickup-time"
-                                                aria-label=".form-select-lg example">
-                                                <option selected>Select Your Pickup Time</option>
+                                        <div class="col-md-6 mb-3">
+                                            <select
+                                                class="form-select loadup-input-field-date-time form-select-lg mb-3 form-select-pickup-time"
+                                                id="datepicker-input-time-val" aria-label=".form-select-lg example">
+                                                <option selected value="default">Select Your Pickup Time</option>
                                                 <option value="Morning 8-10 am">Morning(8am - 10am)</option>
                                                 <option value="Morning 10-12 am">Morning(10am - 12am)</option>
                                                 <option value="Afternoon 12-2 pm">Afternoon(12pm - 2pm)</option>
@@ -495,7 +505,7 @@ foreach ($latest_products_info as $product) {
                                             class="d-grid gap-2 d-md-flex justify-content-md-end accordion-next-btn-wrapper mt-5">
                                             <button
                                                 class="btn btn btn-lg btn-outline-dark radio-card-active me-1 mb-2 loadup-next-btn"
-                                                id="loadup-third-step-next-btn" type="button">Next</button>
+                                                id="loadup-third-step-next-btn" disabled type="button">Next</button>
                                         </div>
 
                                     </div>
@@ -509,9 +519,10 @@ foreach ($latest_products_info as $product) {
 
 
 
-                    <div class="accordion-item">
+                    <div class="accordion-item mb-3">
 
-                        <button class="accordion-button h2 collapsed accordion-btn-collapse-expand"
+                        <button
+                            class="accordion-button h2 collapsed accordion-btn-collapse-expand loadup-accordion-button-item"
                             id="fourth-accordion-btn-loadup" disabled type="button" data-bs-toggle="collapse"
                             data-bs-target="#fourth-loadup-accordion-item" aria-expanded="false"
                             aria-controls="fourth-loadup-accordion-item">
@@ -523,7 +534,7 @@ foreach ($latest_products_info as $product) {
 
                         <div id="fourth-loadup-accordion-item" class="accordion-collapse collapse"
                             aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                            <div class="container accordion-body">
+                            <div class="accordion-body p-4">
                                 <?php if ($checkout->get_checkout_fields()): ?>
 
                                 <?php do_action('woocommerce_checkout_before_customer_details');?>
@@ -538,7 +549,9 @@ foreach ($latest_products_info as $product) {
                                     </div>
                                 </div>
 
-                                <?php do_action('woocommerce_checkout_after_customer_details');?>
+                                <?php
+do_action('woocommerce_checkout_after_customer_details');
+?>
 
                                 <?php endif;?>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end accordion-next-btn-wrapper">
@@ -557,9 +570,10 @@ foreach ($latest_products_info as $product) {
 
 
 
-                    <div class="accordion-item">
+                    <div class="accordion-item mb-3">
 
-                        <button class="accordion-button h2 collapsed accordion-btn-collapse-expand"
+                        <button
+                            class="accordion-button h2 collapsed accordion-btn-collapse-expand loadup-accordion-button-item"
                             id="billing-accordion-btn" disabled type="button" data-bs-toggle="collapse"
                             data-bs-target="#fifth-loadup-accordion-item" aria-expanded="false"
                             aria-controls="fifth-loadup-accordion-item">
@@ -570,13 +584,13 @@ foreach ($latest_products_info as $product) {
 
                         <div id="fifth-loadup-accordion-item" class="accordion-collapse collapse"
                             aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                            <div class="accordion-body container">
+                            <div class="accordion-body">
 
                                 <p class="text-center h1 text-dark"> Place Your Order </h2>
                                 <p class="text-center h3 text-dark"> Yes, it's that easy! </p>
 
 
-                                <div class="loadup-billing-details">
+                                <!-- <div class="loadup-billing-details">
                                     <div class="table-responsive py-5">
                                         <table class="table">
                                             <thead class="thead-dark">
@@ -606,7 +620,40 @@ foreach ($latest_products_info as $product) {
                                         </table>
                                     </div>
 
+                                </div> -->
+
+
+                                <div class="row p-3">
+                                    <div class="col-md-4 col-4 mb-3">
+                                        <p class="h3">
+
+                                            CONTACT
+                                        </p>
+                                        <div class="loadup-customer-billing-contact h4">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-4 mb-3">
+                                        <p class="h3">
+
+                                            DATE/TIME
+                                        </p>
+                                        <div class="loadup-customer-pickup-date h4">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-4 mb-3">
+                                        <p class="h3">
+
+                                            ADDRESS
+                                        </p>
+                                        <div class="loadup-customer-pickup-address h4">
+
+                                        </div>
+                                    </div>
                                 </div>
+
+
 
                                 <div class=" text-white p-5 mb-5 load-size-row">
                                     <h3 class="text-center load-size-type">Load Size: <span id="load-size-type-value">
@@ -619,7 +666,9 @@ foreach ($latest_products_info as $product) {
 
 
                                 <div id="order_review" class="woocommerce-checkout-review-order">
-                                    <?php do_action('woocommerce_checkout_order_review');?>
+                                    <?php
+// do_action('woocommerce_checkout_order_review');
+?>
                                 </div>
 
                                 <?php do_action('woocommerce_checkout_after_order_review');?>
